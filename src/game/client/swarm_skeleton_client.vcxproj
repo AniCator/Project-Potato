@@ -296,6 +296,7 @@ if exist "$(TargetDir)"$(ProjectName).pdb copy "$(TargetDir)"$(ProjectName).pdb 
     <ClCompile Include="c_baseviewmodel.cpp" />
     <ClCompile Include="c_beamspotlight.cpp" />
     <ClCompile Include="c_breakableprop.cpp" />
+    <ClCompile Include="c_club_dj.cpp" />
     <ClCompile Include="c_colorcorrection.cpp" />
     <ClCompile Include="c_colorcorrectionvolume.cpp" />
     <ClCompile Include="c_dynamiclight.cpp" />

@@ -43,7 +43,7 @@ C_ClubDJ::C_ClubDJ(){
 
 void C_ClubDJ::ForcePlay( inputdata_t &inputData )
 {
-	Msg("DJ: Shit should happen soon.. gotta code it first.\n\n");
+	Msg("(ClientSide) DJ: Shit should happen soon.. gotta code it first.\n\n");
 	
 	HSTREAM stream=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, 0, NULL, 0);
 	BASS_ChannelPlay(stream,true);

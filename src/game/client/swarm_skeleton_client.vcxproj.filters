@@ -82,6 +82,9 @@
     <Filter Include="Source Files\sdk\Shared">
       <UniqueIdentifier>{79867f6d-65d3-41bf-a0f1-3a66e9309b86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Club">
+      <UniqueIdentifier>{29b92756-c82c-49c8-be4d-a278811b199d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="client_base.vpc">
@@ -1927,6 +1930,9 @@
     </ClCompile>
     <ClCompile Include="deferred\flashlighteffect_deferred.cpp">
       <Filter>Source Files\deferred</Filter>
+    </ClCompile>
+    <ClCompile Include="c_club_dj.cpp">
+      <Filter>Club</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,12 @@
 #include "cbase.h"
 #include "bass.h"
 
-class C_ClubDJ : public C_LogicalEntity
+class C_ClubDJ : public C_BaseEntity
 {
 	public:
-	DECLARE_CLASS( C_ClubDJ, C_LogicalEntity );
+	DECLARE_CLASS( C_ClubDJ, C_BaseEntity );
 	DECLARE_DATADESC();
+	DECLARE_CLIENTCLASS();
 
 	C_ClubDJ();
  
@@ -21,6 +22,9 @@ class C_ClubDJ : public C_LogicalEntity
 };
  
 LINK_ENTITY_TO_CLASS( club_dj, C_ClubDJ  );
+
+IMPLEMENT_CLIENTCLASS_DT( C_ClubDJ, DT_ClubDJ, CClubDJ )
+END_RECV_TABLE()
  
 // Start of our data description for the class
 BEGIN_DATADESC( C_ClubDJ  )

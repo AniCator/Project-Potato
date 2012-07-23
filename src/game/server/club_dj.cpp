@@ -3,11 +3,17 @@
 #include "cbase.h"
 #include "bass.h"
 
-class CClubDJ : public CLogicalEntity
+class CClubDJ : public CBaseEntity
 {
 	public:
-	DECLARE_CLASS( CClubDJ, CLogicalEntity );
+	DECLARE_CLASS( CClubDJ, CBaseEntity );
 	DECLARE_DATADESC();
+	DECLARE_SERVERCLASS();
+
+	int UpdateTransmitState()	// always send to all clients
+	{
+		return SetTransmitState( FL_EDICT_ALWAYS );
+	}
 
 	CClubDJ();
  
@@ -49,7 +55,4 @@ CClubDJ::CClubDJ ()
 void CClubDJ::ForcePlay( inputdata_t &inputData )
 {
 	Msg("DJ: Shit should happen soon.. gotta code it first.\n\n");
-	
-	HSTREAM stream=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, 0, NULL, 0);
-	BASS_ChannelPlay(stream,true);
 }

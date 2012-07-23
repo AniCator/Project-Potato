@@ -95,7 +95,7 @@ CBaseModFrame::CBaseModFrame( vgui::Panel *parent, const char *panelName, bool o
 
 	//Bass test stuff
 
-	HWND gmode = FindWindowA("Valve001", "Garry's Mod");
+	HWND gmode = FindWindowA("Valve001", "Project Potato");
 	if(!gmode)
 	{
 		gLua->Error("Unable to find Garry's Mod window for BASS library");

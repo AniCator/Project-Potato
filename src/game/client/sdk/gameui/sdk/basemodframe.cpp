@@ -14,9 +14,6 @@
 #include "VFlyoutMenu.h"
 #include "IGameUIFuncs.h"
 
-//CoopCrowd Club stuff
-#include "bass.h"
-
 // vgui controls
 #include <vgui/IVGui.h>
 #include "vgui/ISurface.h"
@@ -92,22 +89,6 @@ CBaseModFrame::CBaseModFrame( vgui::Panel *parent, const char *panelName, bool o
 
 	m_nTopBorderImageId = -1;
 	m_nBottomBorderImageId = -1;
-
-	//Bass test stuff
-
-	HWND hWndPotato = FindWindowA("Valve001", "Project Potato");
-	if(!hWndPotato)
-	{
-		Error("Unable to find Garry's Mod window for BASS library");
-	}
-
-	BOOL bassInit = BASS_Init(-1, 44100, BASS_DEVICE_3D, hWndPotato, NULL);
-	if(!bassInit)
-	{
-		int error = BASS_ErrorGetCode();
-		Msg("BASS Init failed, error code %d\n", error);
-		Error("BASS Init error");
-	}
 }
 
 //=============================================================================

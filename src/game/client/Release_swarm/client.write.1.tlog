@@ -21,3 +21,8 @@ C:\Users\AniCator\sparkleshare\Project-Potato\public\bin\client.dll
 C:\Users\AniCator\sparkleshare\Project-Potato\build\CoopClub\bin\client.dll
 ^client
 C:\Users\AniCator\sparkleshare\Project-Potato\build\CoopClub\bin\client.dll
+^C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj
+C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\client.lib
+C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\client.exp
+^client
+C:\Users\AniCator\sparkleshare\Project-Potato\build\CoopClub\bin\client.dll

@@ -1,5 +1,5 @@
-﻿Build started 7/23/2012 16:07:03.
-     1>Project "C:\Users\AniCator\sparkleshare\Project-Potato\src\materialsystem\shaderlib\shaderlib_swarm.vcxproj" on node 2 (build target(s)).
+﻿Build started 7/23/2012 16:30:10.
+     1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\shaderlib\shaderlib_swarm.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Release\shaderlib.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
@@ -14,8 +14,8 @@
        FinalizeBuildStatus:
          Deleting file ".\Release\shaderlib.unsuccessfulbuild".
          Touching ".\Release\shaderlib.lastbuildstate".
-     1>Done Building Project "C:\Users\AniCator\sparkleshare\Project-Potato\src\materialsystem\shaderlib\shaderlib_swarm.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\shaderlib\shaderlib_swarm.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.25
+Time Elapsed 00:00:00.44

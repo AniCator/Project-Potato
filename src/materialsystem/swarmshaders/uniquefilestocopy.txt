@@ -1,7 +1,7 @@
-..\..\..\..\..\..\PROGRA~2\Steam\steamapps\common\ALIENS~1\bin\shadercompile.exe 
-..\..\..\..\..\..\PROGRA~2\Steam\steamapps\common\ALIENS~1\bin\shadercompile_dll.dll 
-..\..\..\..\..\..\PROGRA~2\Steam\steamapps\common\ALIENS~1\bin\tier0.dll 
-..\..\..\..\..\..\PROGRA~2\Steam\steamapps\common\ALIENS~1\bin\vstdlib.dll 
+..\..\..\..\..\..\..\PROGRA~2\Steam\steamapps\common\ALIENS~1\bin\shadercompile.exe 
+..\..\..\..\..\..\..\PROGRA~2\Steam\steamapps\common\ALIENS~1\bin\shadercompile_dll.dll 
+..\..\..\..\..\..\..\PROGRA~2\Steam\steamapps\common\ALIENS~1\bin\tier0.dll 
+..\..\..\..\..\..\..\PROGRA~2\Steam\steamapps\common\ALIENS~1\bin\vstdlib.dll 
 ..\..\dx9sdk\utilities\dx_proxy.dll 
 common_deferred_fxc.h
 common_fxc.h

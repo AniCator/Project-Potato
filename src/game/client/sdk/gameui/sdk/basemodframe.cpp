@@ -95,20 +95,18 @@ CBaseModFrame::CBaseModFrame( vgui::Panel *parent, const char *panelName, bool o
 
 	//Bass test stuff
 
-	HWND gmode = FindWindowA("Valve001", "Project Potato");
-	if(!gmode)
+	HWND hWndPotato = FindWindowA("Valve001", "Project Potato");
+	if(!hWndPotato)
 	{
-		gLua->Error("Unable to find Garry's Mod window for BASS library");
-		return 0;
+		Error("Unable to find Garry's Mod window for BASS library");
 	}
 
-	BOOL bassInit = BASS_Init(-1, 44100, BASS_DEVICE_3D, gmode, NULL);
+	BOOL bassInit = BASS_Init(-1, 44100, BASS_DEVICE_3D, hWndPotato, NULL);
 	if(!bassInit)
 	{
 		int error = BASS_ErrorGetCode();
-		gLua->Msg("BASS Init failed, error code %d\n", error);
-		gLua->Error("BASS Init error");
-		return 0;
+		Msg("BASS Init failed, error code %d\n", error);
+		Error("BASS Init error");
 	}
 }
 

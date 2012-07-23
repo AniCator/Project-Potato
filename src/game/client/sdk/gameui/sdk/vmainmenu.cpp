@@ -17,6 +17,9 @@
 #include "VSteamCloudConfirmation.h"
 #include "vaddonassociation.h"
 
+//CoopCrowd Club stuff
+#include "bass.h"
+
 #include "VSignInDialog.h"
 #include "VGuiSystemModuleLoader.h"
 #include "VAttractScreen.h"
@@ -111,7 +114,8 @@ void MainMenu::OnCommand( const char *command )
 	}
 	else if ( !Q_stricmp( command, "FlmRunC" ) )
 	{
-		engine->ClientCmd( "map test_volumetrics" ); //set this to 'connect server.anicator.com' when ready
+
+		//engine->ClientCmd( "map test_volumetrics" ); //set this to 'connect server.anicator.com' when ready
 	}
 	else if ( !Q_stricmp( command, "commandConsole" ) )
 	{

@@ -52,6 +52,8 @@ DEFINE_OUTPUT( m_OnThreshold, "OnThreshold" ),
  
 END_DATADESC()
 
+CreateEntityByName( "myentity" );
+
 CClubDJ::CClubDJ ()
 {
 	m_nCounter = 0;

@@ -1,17 +1,13 @@
 #include "cbase.h"
 #include "bass.h"
 
-#if defined( CClubDJ )
-	#undef CClubDJ
-#endif
-
-class CClubDJ : public CLogicalEntity
+class C_ClubDJ : public C_LogicalEntity
 {
 	public:
-	DECLARE_CLASS( CClubDJ, CLogicalEntity );
+	DECLARE_CLASS( C_ClubDJ, C_LogicalEntity );
 	DECLARE_DATADESC();
 
-	CClubDJ();
+	C_ClubDJ();
  
 	// Input function
 	void ForcePlay( inputdata_t &inputData );
@@ -24,10 +20,10 @@ class CClubDJ : public CLogicalEntity
 	COutputEvent	m_OnThreshold;	// Output event when the counter reaches the threshold
 };
  
-LINK_ENTITY_TO_CLASS( club_dj, CClubDJ  );
+LINK_ENTITY_TO_CLASS( club_dj, C_ClubDJ  );
  
 // Start of our data description for the class
-BEGIN_DATADESC( CClubDJ  )
+BEGIN_DATADESC( C_ClubDJ  )
  
 // For save/load
 DEFINE_FIELD( m_nCounter, FIELD_INTEGER ),
@@ -43,7 +39,7 @@ DEFINE_OUTPUT( m_OnThreshold, "OnThreshold" ),
  
 END_DATADESC()
 
-CClubDJ::CClubDJ(){
+C_ClubDJ::C_ClubDJ(){
 	Msg("Club DJ\nBy: AniCator & Th13teen\nInitializing...\n");
 
 	HWND hWndPotato = FindWindowA("Valve001", "Project Potato");
@@ -64,7 +60,7 @@ CClubDJ::CClubDJ(){
 	}
 }
 
-void CClubDJ::ForcePlay( inputdata_t &inputData )
+void C_ClubDJ::ForcePlay( inputdata_t &inputData )
 {
 	Msg("DJ: Shit should happen soon.. gotta code it first.\n\n");
 	

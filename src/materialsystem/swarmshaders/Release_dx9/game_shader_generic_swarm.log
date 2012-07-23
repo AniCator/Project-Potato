@@ -1,30 +1,15 @@
-﻿Build started 7/23/2012 16:30:11.
+﻿Build started 7/23/2012 16:36:17.
      1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\swarmshaders\game_shader_generic_swarm.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release_dx9\game_shader_generic_deferred.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\common /I..\..\public /I..\..\public\tier0 /I..\..\public\tier1 /Ifxctmp9 /Ivshtmp9 /I..\..\dx9sdk\include /Zi /nologo /W4 /WX- /MP /O2 /Ob2 /Oi /Ot /Oy- /D WIN32 /D _WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D STDSHADER_DX9_DLL_EXPORT /D FAST_MATERIALVAR_ACCESS /D COMPILER_MSVC /D COMPILER_MSVC32 /D _WINDLL /D _MBCS /GF /Gm- /MT /GS- /Gy /fp:fast /Zc:wchar_t /Zc:forScope /GR /Fo"Release_dx9\\" /Fd"Release_dx9\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt IDeferredExt.cpp blur.cpp debug_lightingctrl.cpp debug_radiosity_grid.cpp debug_shadow.cpp deferred_brush.cpp deferred_model.cpp deferred_utility.cpp defpass_composite.cpp defpass_gbuffer.cpp defpass_shadow.cpp lighting_global.cpp lighting_pass_basic.cpp lighting_pass_volum.cpp lighting_volume.cpp lighting_world.cpp radiosity_blend.cpp radiosity_global.cpp radiosity_propagate.cpp volume_blend.cpp volume_prepass.cpp
-         IDeferredExt.cpp
-         blur.cpp
-         debug_lightingctrl.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\common /I..\..\public /I..\..\public\tier0 /I..\..\public\tier1 /Ifxctmp9 /Ivshtmp9 /I..\..\dx9sdk\include /Zi /nologo /W4 /WX- /MP /O2 /Ob2 /Oi /Ot /Oy- /D WIN32 /D _WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D STDSHADER_DX9_DLL_EXPORT /D FAST_MATERIALVAR_ACCESS /D COMPILER_MSVC /D COMPILER_MSVC32 /D _WINDLL /D _MBCS /GF /Gm- /MT /GS- /Gy /fp:fast /Zc:wchar_t /Zc:forScope /GR /Fo"Release_dx9\\" /Fd"Release_dx9\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt debug_radiosity_grid.cpp defpass_shadow.cpp lighting_global.cpp radiosity_blend.cpp radiosity_global.cpp radiosity_propagate.cpp
          debug_radiosity_grid.cpp
-         debug_shadow.cpp
-         deferred_brush.cpp
-         deferred_model.cpp
-         deferred_utility.cpp
-         defpass_composite.cpp
-         defpass_gbuffer.cpp
          defpass_shadow.cpp
          lighting_global.cpp
-         lighting_pass_basic.cpp
-         lighting_pass_volum.cpp
-         lighting_volume.cpp
-         lighting_world.cpp
          radiosity_blend.cpp
          radiosity_global.cpp
          radiosity_propagate.cpp
-         volume_blend.cpp
-         volume_prepass.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Release_dx9\game_shader_generic_deferred.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\..\lib\common /LIBPATH:..\..\lib\public version.lib winmm.lib tier1.lib interfaces.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc /NODEFAULTLIB:libcd /NODEFAULTLIB:libcmtd /MANIFEST:NO /DEBUG /PDB:"Release_dx9\game_shader_generic_deferred.pdb" /MAP:"Release_dx9\game_shader_generic_deferred.map" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Release_dx9\game_shader_generic_deferred.lib" /MACHINE:X86 /DLL Release_dx9\BaseVSShader.obj
          Release_dx9\blur.obj
@@ -66,8 +51,7 @@
          copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\swarmshaders\Release_dx9\"$ProjectName).dll "..\..\..\build\CoopClub\bin\"
          if exist "C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\swarmshaders\Release_dx9\"game_shader_generic_deferred.map copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\swarmshaders\Release_dx9\"game_shader_generic_deferred.map "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\game_shader_generic_deferred.map"
          :VCEnd
-         The process cannot access the file because it is being used by another process.
-                 0 file(s) copied.
+                 1 file(s) copied.
          The system cannot find the file specified.
                  1 file(s) copied.
        FinalizeBuildStatus:
@@ -77,4 +61,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:13.35
+Time Elapsed 00:00:08.11

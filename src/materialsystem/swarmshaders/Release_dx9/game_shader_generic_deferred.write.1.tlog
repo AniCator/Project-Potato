@@ -38,3 +38,12 @@ C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\swarmshaders\Re
 ^stdshader_dx9_20b.txt
 ^stdshader_dx9_30.txt
 C:\Users\AniCator\SparkleShare\Project-Potato\build\CoopClub\bin\game_shader_generic_deferred.dll
+^C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\swarmshaders\game_shader_generic_swarm.vcxproj
+C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\swarmshaders\Release_dx9\game_shader_generic_deferred.lib
+C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\swarmshaders\Release_dx9\game_shader_generic_deferred.lib
+C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\swarmshaders\Release_dx9\game_shader_generic_deferred.exp
+C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\swarmshaders\Release_dx9\game_shader_generic_deferred.exp
+^game_shader_generic_deferred
+^stdshader_dx9_20b.txt
+^stdshader_dx9_30.txt
+C:\Users\AniCator\SparkleShare\Project-Potato\build\CoopClub\bin\game_shader_generic_deferred.dll

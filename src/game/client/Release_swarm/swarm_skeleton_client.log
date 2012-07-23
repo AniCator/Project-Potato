@@ -1,4 +1,4 @@
-﻿Build started 7/23/2012 16:01:59.
+﻿Build started 7/23/2012 16:02:56.
      1>Project "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Release_swarm\client.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -7,8 +7,6 @@
          All outputs are up-to-date.
          All outputs are up-to-date.
          All outputs are up-to-date.
-       ComputeCustomBuildOutput:
-         Creating directory "C:\Users\AniCator\sparkleshare\Project-Potato\public\bin\".
        Link:
          All outputs are up-to-date.
          swarm_skeleton_client.vcxproj -> C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\.\Release_swarm\client.dll
@@ -16,9 +14,11 @@
          Description: Performing Custom Build Step
          if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.dll" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.dll"
          copy "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\"client.dll "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin"
+         copy "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\"client.dll "..\..\..\public\bin\"
          if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb"
          if exist "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\"client.pdb copy "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\"client.pdb "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb"
          :VCEnd
+                 1 file(s) copied.
                  1 file(s) copied.
                  1 file(s) copied.
        FinalizeBuildStatus:
@@ -28,4 +28,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:05.55
+Time Elapsed 00:00:05.63

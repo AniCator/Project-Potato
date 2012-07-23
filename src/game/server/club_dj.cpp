@@ -1,7 +1,6 @@
 //Club DJ entity for CoopCrowd Club mod
 
 #include "cbase.h"
-#include "bass.h"
 
 class CClubDJ : public CBaseEntity
 {
@@ -31,6 +30,9 @@ class CClubDJ : public CBaseEntity
 };
  
 LINK_ENTITY_TO_CLASS( club_dj, CClubDJ  );
+
+IMPLEMENT_SERVERCLASS_ST( CClubDJ, DT_ClubDJ )
+END_SEND_TABLE()
  
 // Start of our data description for the class
 BEGIN_DATADESC( CClubDJ  )
@@ -53,9 +55,6 @@ CClubDJ::CClubDJ ()
 {
 	m_nCounter = 0;
 }
-
-IMPLEMENT_SERVERCLASS_ST( CClubDJ, DT_ClubDJ )
-END_SEND_TABLE()
 
 void CClubDJ::ForcePlay( inputdata_t &inputData )
 {

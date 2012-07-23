@@ -1,31 +1,27 @@
-﻿Build started 7/23/2012 21:19:00.
-     1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" on node 2 (build target(s)).
+﻿Build started 7/23/2012 21:22:10.
+     1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Release_swarm\client.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
          All outputs are up-to-date.
-         All outputs are up-to-date.
-         All outputs are up-to-date.
-       Link:
-         All outputs are up-to-date.
-         swarm_skeleton_client.vcxproj -> C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\.\Release_swarm\client.dll
-       CustomBuildStep:
-         Description: Performing Custom Build Step
-         if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.dll" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.dll"
-         copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\Release_swarm\"client.dll "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin"
-         copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\Release_swarm\"client.dll "..\..\..\build\CoopClub\bin\"
-         if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb"
-         if exist "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\Release_swarm\"client.pdb copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\Release_swarm\"client.pdb "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb"
-         :VCEnd
-                 1 file(s) copied.
-                 1 file(s) copied.
-                 1 file(s) copied.
-       FinalizeBuildStatus:
-         Deleting file ".\Release_swarm\client.unsuccessfulbuild".
-         Touching ".\Release_swarm\client.lastbuildstate".
-     1>Done Building Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" (build target(s)).
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I.\hl2 /I.\sdk /I.\sdk\vgui /I..\..\lib\ /I..\statemachine /I..\..\game\shared\multiplayer /I..\..\game\shared\sdk /I.\ /I..\..\common /I..\..\public /I..\..\public\tier0 /I..\..\public\tier1 /I..\..\game\shared /I.\game_controls /I.\Release_swarm\ /I..\..\game\client\sdk\gameui /Zi /nologo /W4 /WX- /O2 /Ob2 /Oi /Ot /Oy- /D WIN32 /D _WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D DLLNAME=client /D VPCGAME=swarm /D VPCGAMECAPS=SWARM /D _DLL_EXT=.dll /D COMPILER_MSVC32 /D COMPILER_MSVC /D MEMOVERRIDE_MODULE=client /D NO_STRING_T /D CLIENT_DLL /D VECTOR /D VERSION_SAFE_STEAM_API_INTERFACES /D PROTECTED_THINGS_ENABLE /D strncpy=use_Q_strncpy_instead /D _snprintf=use_Q_snprintf_instead /D ENABLE_HTMLWINDOW /D fopen=dont_use_fopen /D SDK_CLIENT_DLL /D SDK_DLL /D SPLIT_SCREEN_STUBS /D GAMEUI_EMBEDDED /D GAMEUI_EXPORTS /D DEFERRED_DEV /D _WINDLL /D _MBCS /GF /Gm- /MT /GS- /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /GR /Yu"cbase.h" /Fp".\Release_swarm\client.pch" /Fo".\Release_swarm\\" /Fd".\Release_swarm\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt c_club_dj.cpp /MP 
+         c_club_dj.cpp
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\winbase.h(59): warning C4005: 'INVALID_HANDLE_VALUE' : macro redefinition
+                 C:\Users\AniCator\SparkleShare\Project-Potato\src\common\xbox/xboxstubs.h(112) : see previous definition of 'INVALID_HANDLE_VALUE'
+     1>c_club_dj.cpp(5): error C2504: 'C_LogicalEntity' : base class undefined
+     1>c_club_dj.cpp(7): error C2146: syntax error : missing ';' before identifier 'BaseClass'
+     1>c_club_dj.cpp(7): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c_club_dj.cpp(7): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c_club_dj.cpp(18): error C2440: 'static_cast' : cannot convert from 'C_ClubDJ *' to 'C_BaseEntity *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>c_club_dj.cpp(20): error C2039: 'Init' : is not a member of 'C_ClubDJ'
+                 c_club_dj.cpp(4) : see declaration of 'C_ClubDJ'
+     1>c_club_dj.cpp(20): error C2440: 'return' : cannot convert from 'C_ClubDJ *' to 'IClientNetworkable *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>c_club_dj.cpp(20): error C3083: 'BaseClass': the symbol to the left of a '::' must be a type
+     1>Done Building Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" (build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:08.53
+Time Elapsed 00:00:32.09

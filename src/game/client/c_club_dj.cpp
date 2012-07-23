@@ -1,10 +1,10 @@
 #include "cbase.h"
 #include "bass.h"
 
-class C_ClubDJ : public C_LogicalEntity
+class C_ClubDJ : public C_BaseEntity
 {
 	public:
-	DECLARE_CLASS( C_ClubDJ, C_LogicalEntity );
+	DECLARE_CLASS( C_ClubDJ, C_BaseEntity );
 	DECLARE_CLIENTCLASS();
 
 	C_ClubDJ();

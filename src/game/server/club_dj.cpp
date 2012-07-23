@@ -31,9 +31,6 @@ class CClubDJ : public CBaseEntity
 };
  
 LINK_ENTITY_TO_CLASS( club_dj, CClubDJ  );
-
-IMPLEMENT_SERVERCLASS_ST( CClubDJ, DT_ClubDJ )
-END_SEND_TABLE()
  
 // Start of our data description for the class
 BEGIN_DATADESC( CClubDJ  )
@@ -49,13 +46,16 @@ DEFINE_INPUTFUNC( FIELD_VOID, "ForcePlay", ForcePlay),
  
 // Links our output member to the output name used by Hammer
 DEFINE_OUTPUT( m_OnThreshold, "OnThreshold" ),
- 
+
 END_DATADESC()
 
 CClubDJ::CClubDJ ()
 {
 	m_nCounter = 0;
 }
+
+IMPLEMENT_SERVERCLASS_ST( CClubDJ, DT_ClubDJ )
+END_SEND_TABLE()
 
 void CClubDJ::ForcePlay( inputdata_t &inputData )
 {

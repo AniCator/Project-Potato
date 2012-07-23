@@ -34,8 +34,6 @@ LINK_ENTITY_TO_CLASS( club_dj, CClubDJ  );
 
 IMPLEMENT_SERVERCLASS_ST( CClubDJ, DT_ClubDJ )
 END_SEND_TABLE()
-
-
  
 // Start of our data description for the class
 BEGIN_DATADESC( CClubDJ  )
@@ -61,6 +59,5 @@ CClubDJ::CClubDJ ()
 
 void CClubDJ::ForcePlay( inputdata_t &inputData )
 {
-	CreateEntityByName( "club_dj" );
 	Msg("DJ: Shit should happen soon.. gotta code it first.\n\n");
 }

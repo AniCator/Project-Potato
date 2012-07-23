@@ -58,5 +58,5 @@ CClubDJ::CClubDJ ()
 
 void CClubDJ::ForcePlay( inputdata_t &inputData )
 {
-	Msg("DJ: Shit should happen soon.. gotta code it first.\n\n");
+	Msg("(Server) DJ: Shit should happen soon.. gotta code it first.\n\n");
 }

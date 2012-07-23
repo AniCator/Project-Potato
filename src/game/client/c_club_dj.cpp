@@ -1,6 +1,10 @@
 #include "cbase.h"
 #include "bass.h"
 
+#if defined( CClubDJ )
+	#undef CClubDJ
+#endif
+
 class CClubDJ : public CLogicalEntity
 {
 	public:

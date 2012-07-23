@@ -1,5 +1,5 @@
-﻿Build started 7/23/2012 02:18:00.
-     1>Project "C:\Projects\Games\CoopClub\src\materialsystem\swarmshaders\game_shader_generic_swarm.vcxproj" on node 4 (build target(s)).
+﻿Build started 7/23/2012 15:46:55.
+     1>Project "C:\Users\AniCator\sparkleshare\Project-Potato\src\materialsystem\swarmshaders\game_shader_generic_swarm.vcxproj" on node 4 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release_dx9\game_shader_generic_deferred.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
@@ -26,8 +26,6 @@
          radiosity_propagate.cpp
          volume_blend.cpp
          volume_prepass.cpp
-       ComputeCustomBuildOutput:
-         Creating directory "C:\Program Files (x86)\Steam\steamapps\Sourcemods\CoopClub\bin\".
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Release_dx9\game_shader_generic_deferred.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\..\lib\common /LIBPATH:..\..\lib\public version.lib winmm.lib tier1.lib interfaces.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc /NODEFAULTLIB:libcd /NODEFAULTLIB:libcmtd /MANIFEST:NO /DEBUG /PDB:"Release_dx9\game_shader_generic_deferred.pdb" /MAP:"Release_dx9\game_shader_generic_deferred.map" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Release_dx9\game_shader_generic_deferred.lib" /MACHINE:X86 /DLL Release_dx9\BaseVSShader.obj
          Release_dx9\blur.obj
@@ -62,19 +60,19 @@
          ..\..\lib\public\tier3.lib
          ..\..\lib\public\vstdlib.lib
             Creating library Release_dx9\game_shader_generic_deferred.lib and object Release_dx9\game_shader_generic_deferred.exp
-         game_shader_generic_swarm.vcxproj -> C:\Projects\Games\CoopClub\src\materialsystem\swarmshaders\Release_dx9\game_shader_generic_deferred.dll
+         game_shader_generic_swarm.vcxproj -> C:\Users\AniCator\sparkleshare\Project-Potato\src\materialsystem\swarmshaders\Release_dx9\game_shader_generic_deferred.dll
        CustomBuildStep:
          if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\game_shader_generic_deferred.dll" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\game_shader_generic_deferred.dll"
-         copy "C:\Projects\Games\CoopClub\src\materialsystem\swarmshaders\Release_dx9\"game_shader_generic_deferred.dll "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin"
-         if exist "C:\Projects\Games\CoopClub\src\materialsystem\swarmshaders\Release_dx9\"game_shader_generic_deferred.map copy "C:\Projects\Games\CoopClub\src\materialsystem\swarmshaders\Release_dx9\"game_shader_generic_deferred.map "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\game_shader_generic_deferred.map"
+         copy "C:\Users\AniCator\sparkleshare\Project-Potato\src\materialsystem\swarmshaders\Release_dx9\"game_shader_generic_deferred.dll "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin"
+         if exist "C:\Users\AniCator\sparkleshare\Project-Potato\src\materialsystem\swarmshaders\Release_dx9\"game_shader_generic_deferred.map copy "C:\Users\AniCator\sparkleshare\Project-Potato\src\materialsystem\swarmshaders\Release_dx9\"game_shader_generic_deferred.map "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\game_shader_generic_deferred.map"
          :VCEnd
                  1 file(s) copied.
                  1 file(s) copied.
        FinalizeBuildStatus:
          Deleting file "Release_dx9\game_shader_generic_deferred.unsuccessfulbuild".
          Touching "Release_dx9\game_shader_generic_deferred.lastbuildstate".
-     1>Done Building Project "C:\Projects\Games\CoopClub\src\materialsystem\swarmshaders\game_shader_generic_swarm.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\AniCator\sparkleshare\Project-Potato\src\materialsystem\swarmshaders\game_shader_generic_swarm.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:19.45
+Time Elapsed 00:03:40.51

@@ -17,9 +17,6 @@
 #include "VSteamCloudConfirmation.h"
 #include "vaddonassociation.h"
 
-//CoopCrowd Club stuff
-#include "bass.h"
-
 #include "VSignInDialog.h"
 #include "VGuiSystemModuleLoader.h"
 #include "VAttractScreen.h"

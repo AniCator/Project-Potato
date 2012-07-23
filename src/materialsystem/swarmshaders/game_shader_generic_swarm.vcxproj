@@ -126,8 +126,9 @@ if exist "$(TargetDir)"$(ProjectName).map copy "$(TargetDir)"$(ProjectName).map 
       </Message>
       <Command>if exist "$(appsDir)\Sourcemods\$(modName)\bin\$(ProjectName).dll" attrib -r "$(appsDir)\Sourcemods\$(modName)\bin\$(ProjectName).dll"
 copy "$(TargetDir)"$(ProjectName).dll "$(appsDir)\Sourcemods\$(modName)\bin"
+copy "$(TargetDir)"$ProjectName).dll "..\..\..\build\CoopClub\bin\"
 if exist "$(TargetDir)"$(ProjectName).map copy "$(TargetDir)"$(ProjectName).map "$(appsDir)\Sourcemods\$(modName)\bin\$(ProjectName).map"</Command>
-      <Outputs>$(appsDir)\Sourcemods\$(modName)\bin\$(ProjectName).dll;$(appsDir)\Sourcemods\$(modName)\bin\$(ProjectName).map;%(Outputs)</Outputs>
+      <Outputs>..\..\..\build\CoopClub\bin\$(ProjectName).dll;..\..\..\build\CoopClub\bin\$(ProjectName).map;$(appsDir)\Sourcemods\$(modName)\bin\$(ProjectName).dll;$(appsDir)\Sourcemods\$(modName)\bin\$(ProjectName).map;%(Outputs)</Outputs>
       <Inputs>$(TargetPath) $(appsDir) $(modName) $(ProjectName)</Inputs>
     </CustomBuildStep>
     <ClCompile>

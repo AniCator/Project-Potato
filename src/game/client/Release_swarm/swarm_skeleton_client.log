@@ -1,4 +1,4 @@
-﻿Build started 7/23/2012 16:04:41.
+﻿Build started 7/23/2012 16:07:07.
      1>Project "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Release_swarm\client.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -28,4 +28,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:05.44
+Time Elapsed 00:00:05.41

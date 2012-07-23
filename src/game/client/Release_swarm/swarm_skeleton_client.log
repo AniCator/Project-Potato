@@ -1,31 +1,32 @@
-﻿Build started 7/23/2012 16:07:07.
-     1>Project "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" on node 2 (build target(s)).
+﻿Build started 7/23/2012 16:14:48.
+     1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Release_swarm\client.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
          All outputs are up-to-date.
-         All outputs are up-to-date.
-         All outputs are up-to-date.
-       Link:
-         All outputs are up-to-date.
-         swarm_skeleton_client.vcxproj -> C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\.\Release_swarm\client.dll
-       CustomBuildStep:
-         Description: Performing Custom Build Step
-         if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.dll" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.dll"
-         copy "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\"client.dll "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin"
-         copy "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\"client.dll "..\..\..\build\CoopClub\bin\"
-         if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb"
-         if exist "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\"client.pdb copy "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\"client.pdb "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb"
-         :VCEnd
-                 1 file(s) copied.
-                 1 file(s) copied.
-                 1 file(s) copied.
-       FinalizeBuildStatus:
-         Deleting file ".\Release_swarm\client.unsuccessfulbuild".
-         Touching ".\Release_swarm\client.lastbuildstate".
-     1>Done Building Project "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" (build target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:05.41
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I.\hl2 /I.\sdk /I.\sdk\vgui /I..\statemachine /I..\..\game\shared\multiplayer /I..\..\game\shared\sdk /I.\ /I..\..\common /I..\..\public /I..\..\public\tier0 /I..\..\public\tier1 /I..\..\game\shared /I.\game_controls /I.\Release_swarm\ /I..\..\game\client\sdk\gameui /Zi /nologo /W4 /WX- /O2 /Ob2 /Oi /Ot /Oy- /D WIN32 /D _WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D DLLNAME=client /D VPCGAME=swarm /D VPCGAMECAPS=SWARM /D _DLL_EXT=.dll /D COMPILER_MSVC32 /D COMPILER_MSVC /D MEMOVERRIDE_MODULE=client /D NO_STRING_T /D CLIENT_DLL /D VECTOR /D VERSION_SAFE_STEAM_API_INTERFACES /D PROTECTED_THINGS_ENABLE /D strncpy=use_Q_strncpy_instead /D _snprintf=use_Q_snprintf_instead /D ENABLE_HTMLWINDOW /D fopen=dont_use_fopen /D SDK_CLIENT_DLL /D SDK_DLL /D SPLIT_SCREEN_STUBS /D GAMEUI_EMBEDDED /D GAMEUI_EXPORTS /D DEFERRED_DEV /D _WINDLL /D _MBCS /GF /Gm- /MT /GS- /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /GR /Yu"cbase.h" /Fp".\Release_swarm\client.pch" /Fo".\Release_swarm\\" /Fd".\Release_swarm\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\shared\deferred\CDefLight.cpp ..\shared\deferred\CDefLightContainer.cpp ..\shared\deferred\CDefLightGlobal.cpp ..\shared\deferred\deferred_shared_common.cpp cdll_client_int.cpp deferred\DefCookieProjectable.cpp deferred\DefCookieTexture.cpp deferred\IDeferredExtClient.cpp deferred\cascade_t.cpp deferred\cdeferred_manager_client.cpp deferred\clight_editor.cpp deferred\clight_manager.cpp deferred\def_light_t.cpp deferred\deferred_client_common.cpp deferred\deferred_rt.cpp deferred\flashlighteffect_deferred.cpp deferred\materialsystem_passthru.cpp deferred\vgui\projectable_factory.cpp deferred\vgui\vgui_editor_controls.cpp deferred\vgui\vgui_editor_props.cpp deferred\vgui\vgui_editor_root.cpp deferred\vgui\vgui_projectable.cpp deferred\viewrender_deferred.cpp flashlighteffect.cpp /MP 
+         CDefLight.cpp
+         CDefLightContainer.cpp
+         CDefLightGlobal.cpp
+         deferred_shared_common.cpp
+         cdll_client_int.cpp
+         DefCookieProjectable.cpp
+         DefCookieTexture.cpp
+         IDeferredExtClient.cpp
+         cascade_t.cpp
+         cdeferred_manager_client.cpp
+         clight_editor.cpp
+         clight_manager.cpp
+         def_light_t.cpp
+         deferred_client_common.cpp
+         deferred_rt.cpp
+         flashlighteffect_deferred.cpp
+         materialsystem_passthru.cpp
+         projectable_factory.cpp
+         vgui_editor_controls.cpp
+         vgui_editor_props.cpp
+         vgui_editor_root.cpp
+         vgui_projectable.cpp
+         viewrender_deferred.cpp
+         flashlighteffect.cpp

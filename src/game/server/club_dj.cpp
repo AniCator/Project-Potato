@@ -44,14 +44,10 @@ END_DATADESC()
 CClubDJ::CClubDJ ()
 {
 	m_nCounter = 0;
-}
 
-void CClubDJ::ForcePlay( inputdata_t &inputData )
-{
-	Msg("DJ: Shit should happen soon.. gotta code it first.\n\n");
 	Msg("Club DJ\nBy: AniCator & Th13teen\nInitializing...\n");
 
-	HWND hWndPotato = FindWindowA("Valve001", "Garry's Mod");
+	HWND hWndPotato = FindWindowA("Valve001", "Project Potato");
 	if(!hWndPotato)
 	{
 		Error("Unable to find Garry's Mod window for BASS library");
@@ -67,4 +63,12 @@ void CClubDJ::ForcePlay( inputdata_t &inputData )
 	else{
 		Msg("Club DJ's body is ready!\n");
 	}
+}
+
+void CClubDJ::ForcePlay( inputdata_t &inputData )
+{
+	Msg("DJ: Shit should happen soon.. gotta code it first.\n\n");
+	
+	HSTREAM stream=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, 0, NULL, 0);
+	BASS_ChannelPlay(stream,true);
 }

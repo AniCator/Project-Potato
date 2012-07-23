@@ -1,4 +1,4 @@
-﻿Build started 7/23/2012 16:02:56.
+﻿Build started 7/23/2012 16:04:41.
      1>Project "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Release_swarm\client.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -14,7 +14,7 @@
          Description: Performing Custom Build Step
          if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.dll" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.dll"
          copy "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\"client.dll "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin"
-         copy "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\"client.dll "..\..\..\public\bin\"
+         copy "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\"client.dll "..\..\..\build\CoopClub\bin\"
          if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb"
          if exist "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\"client.pdb copy "C:\Users\AniCator\sparkleshare\Project-Potato\src\game\client\Release_swarm\"client.pdb "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb"
          :VCEnd
@@ -28,4 +28,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:05.63
+Time Elapsed 00:00:05.44

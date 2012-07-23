@@ -1,7 +1,7 @@
-﻿Build started 7/23/2012 22:22:54.
-     1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" on node 2 (build target(s)).
+﻿Build started 7/24/2012 01:33:04.
+     1>Project "C:\Users\AniCator\sparkleshare\project-potato\src\game\client\swarm_skeleton_client.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching ".\Release_swarm\client.unsuccessfulbuild".
+         Creating ".\Release_swarm\client.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
          All outputs are up-to-date.
@@ -9,6 +9,7 @@
          c_club_dj.cpp
      1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\winbase.h(59): warning C4005: 'INVALID_HANDLE_VALUE' : macro redefinition
                  C:\Users\AniCator\SparkleShare\Project-Potato\src\common\xbox/xboxstubs.h(112) : see previous definition of 'INVALID_HANDLE_VALUE'
+     1>c_club_dj.cpp(73): warning C4189: 'stream' : local variable is initialized but not referenced
          All outputs are up-to-date.
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Release_swarm\client.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\..\lib\ /LIBPATH:..\..\lib\common\. /LIBPATH:..\..\lib\public\. bass.lib winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc /NODEFAULTLIB:libcd /NODEFAULTLIB:libcmtd /MANIFEST:NO /DEBUG /PDB:".\Release_swarm\client.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /DLL .\Release_swarm\language.obj
@@ -640,14 +641,14 @@
          ..\..\lib\public\vstdlib.lib
          ..\..\lib\public\vtf.lib
             Creating library .\Release_swarm\client.lib and object .\Release_swarm\client.exp
-         swarm_skeleton_client.vcxproj -> C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\.\Release_swarm\client.dll
+         swarm_skeleton_client.vcxproj -> C:\Users\AniCator\sparkleshare\project-potato\src\game\client\.\Release_swarm\client.dll
        CustomBuildStep:
          Description: Performing Custom Build Step
          if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.dll" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.dll"
-         copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\Release_swarm\"client.dll "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin"
-         copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\Release_swarm\"client.dll "..\..\..\build\CoopClub\bin\"
+         copy "C:\Users\AniCator\sparkleshare\project-potato\src\game\client\Release_swarm\"client.dll "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin"
+         copy "C:\Users\AniCator\sparkleshare\project-potato\src\game\client\Release_swarm\"client.dll "..\..\..\build\CoopClub\bin\"
          if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb"
-         if exist "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\Release_swarm\"client.pdb copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\Release_swarm\"client.pdb "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb"
+         if exist "C:\Users\AniCator\sparkleshare\project-potato\src\game\client\Release_swarm\"client.pdb copy "C:\Users\AniCator\sparkleshare\project-potato\src\game\client\Release_swarm\"client.pdb "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb"
          :VCEnd
                  1 file(s) copied.
                  1 file(s) copied.
@@ -655,8 +656,8 @@
        FinalizeBuildStatus:
          Deleting file ".\Release_swarm\client.unsuccessfulbuild".
          Touching ".\Release_swarm\client.lastbuildstate".
-     1>Done Building Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\AniCator\sparkleshare\project-potato\src\game\client\swarm_skeleton_client.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:29.86
+Time Elapsed 00:00:31.87

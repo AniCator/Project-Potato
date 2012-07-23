@@ -1,0 +1,8 @@
+@include "base.fgd"
+ 
+@PointClass base(Targetname, Origin) = club_dj : "Club DJ entity"
+[
+	input ForcePlay(void) : "Force DJ entity to play a track."
+	
+	light1(target_destination) : "Main Light" : "foobar"
+]

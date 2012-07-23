@@ -2,7 +2,7 @@
 {
 	"$basetexture" "models\player\blue\blue_body"	
 	"$bumpmap" "models\player\blue\blue_body_normal"	
-	"$phong" "1"
+	"$phong" "0"
 
 //	"$phongexponent" "3"
 	"$phongboost" "1"	
@@ -13,14 +13,14 @@
 	
 	$envmap env_cubemap
 	$envmapmask "models\player\blue\blue_body_exp"
-	$envmaptint		"[ 0.5 0.5 0.4 ]"
+	$envmaptint		"[ 0.2 0.2 0.1 ]"
 	
 	$ENVMAPFRESNEL 1
 	
 	$PHONG_FRESNEL 1
 	"$fresnelranges"	"[0.2 2 50]"
 	
-	$RIMLIGHT 1
+	$RIMLIGHT 0
 	$RIMLIGHTEXPONENT 5
 	$RIMLIGHTALBEDOSCALE 0.9
 	$RIMLIGHTTINT "[0.1 0.1 0.1]"

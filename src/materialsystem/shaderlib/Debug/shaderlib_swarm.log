@@ -1,0 +1,21 @@
+﻿Build started 7/21/2012 19:31:15.
+     1>Project "C:\Projects\Games\swarm-deferred\src\materialsystem\shaderlib\shaderlib_swarm.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\Debug\shaderlib.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(1151,5): warning MSB8012: TargetPath(C:\Projects\Games\swarm-deferred\src\materialsystem\shaderlib\.\Debug\shaderlib.lib) does not match the Library's OutputFile property value (C:\Projects\Games\swarm-deferred\src\lib\public\shaderlib.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+       PreLinkEvent:
+         if exist ..\..\lib\public\shaderlib.lib attrib -r ..\..\lib\public\shaderlib.lib
+         :VCEnd
+       Lib:
+         All outputs are up-to-date.
+         shaderlib_swarm.vcxproj -> C:\Projects\Games\swarm-deferred\src\materialsystem\shaderlib\.\Debug\shaderlib.lib
+       FinalizeBuildStatus:
+         Deleting file ".\Debug\shaderlib.unsuccessfulbuild".
+         Touching ".\Debug\shaderlib.lastbuildstate".
+     1>Done Building Project "C:\Projects\Games\swarm-deferred\src\materialsystem\shaderlib\shaderlib_swarm.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.28

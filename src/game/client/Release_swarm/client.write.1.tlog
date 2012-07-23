@@ -1,0 +1,10 @@
+^C:\Projects\Games\swarm-deferred\src\game\client\swarm_skeleton_client.vcxproj
+C:\Projects\Games\swarm-deferred\src\game\client\Release_swarm\client.lib
+C:\Projects\Games\swarm-deferred\src\game\client\Release_swarm\client.exp
+^client
+C:\Program Files (x86)\Steam\steamapps\Sourcemods\Shift\bin\client.dll
+^C:\Projects\Games\CoopClub\src\game\client\swarm_skeleton_client.vcxproj
+C:\Projects\Games\CoopClub\src\game\client\Release_swarm\client.lib
+C:\Projects\Games\CoopClub\src\game\client\Release_swarm\client.exp
+^client
+C:\Program Files (x86)\Steam\steamapps\Sourcemods\CoopClub\bin\client.dll

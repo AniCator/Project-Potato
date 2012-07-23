@@ -1,0 +1,81 @@
+﻿Build started 7/21/2012 17:26:43.
+     1>Project "C:\Projects\Games\swarm-deferred\src\materialsystem\swarmshaders\game_shader_generic_swarm.vcxproj" on node 4 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug_dx9\game_shader_generic_deferred.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\common /I..\..\public /I..\..\public\tier0 /I..\..\public\tier1 /Ifxctmp9 /Ivshtmp9 /I..\..\dx9sdk\include /ZI /nologo /W4 /WX- /Od /Oy- /D WIN32 /D _WIN32 /D _DEBUG /D DEBUG /D _WINDOWS /D _USRDLL /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D STDSHADER_DX9_DLL_EXPORT /D FAST_MATERIALVAR_ACCESS /D COMPILER_MSVC /D COMPILER_MSVC32 /D _WINDLL /D _MBCS /GF /Gm /RTC1 /MTd /GS- /fp:fast /Zc:wchar_t /Zc:forScope /GR /Fo"Debug_dx9\\" /Fd"Debug_dx9\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt BaseVSShader.cpp blur.cpp debug_lightingctrl.cpp debug_radiosity_grid.cpp debug_shadow.cpp deferred_brush.cpp deferred_model.cpp deferred_utility.cpp defpass_composite.cpp defpass_gbuffer.cpp defpass_shadow.cpp IDeferredExt.cpp lighting_global.cpp lighting_pass_basic.cpp lighting_pass_volum.cpp lighting_world.cpp lighting_volume.cpp radiosity_blend.cpp radiosity_global.cpp radiosity_propagate.cpp volume_blend.cpp volume_prepass.cpp
+         volume_prepass.cpp
+         volume_blend.cpp
+         radiosity_propagate.cpp
+         radiosity_global.cpp
+         radiosity_blend.cpp
+         lighting_volume.cpp
+         lighting_world.cpp
+         lighting_pass_volum.cpp
+         lighting_pass_basic.cpp
+         lighting_global.cpp
+         IDeferredExt.cpp
+         defpass_shadow.cpp
+         defpass_gbuffer.cpp
+         defpass_composite.cpp
+         deferred_utility.cpp
+         deferred_model.cpp
+         deferred_brush.cpp
+         debug_shadow.cpp
+         debug_radiosity_grid.cpp
+         debug_lightingctrl.cpp
+         Generating Code...
+         Compiling...
+         blur.cpp
+         BaseVSShader.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Debug_dx9\game_shader_generic_deferred.dll" /INCREMENTAL /NOLOGO /LIBPATH:..\..\lib\common /LIBPATH:..\..\lib\public version.lib winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc /NODEFAULTLIB:libcd /NODEFAULTLIB:libcmt /MANIFEST:NO /DEBUG /PDB:"Debug_dx9\game_shader_generic_deferred.pdb" /MAP:"Debug_dx9\game_shader_generic_deferred.map" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Debug_dx9\game_shader_generic_deferred.lib" /MACHINE:X86 /DLL Debug_dx9\BaseVSShader.obj
+         Debug_dx9\blur.obj
+         Debug_dx9\debug_lightingctrl.obj
+         Debug_dx9\debug_radiosity_grid.obj
+         Debug_dx9\debug_shadow.obj
+         Debug_dx9\deferred_brush.obj
+         Debug_dx9\deferred_model.obj
+         Debug_dx9\deferred_utility.obj
+         Debug_dx9\defpass_composite.obj
+         Debug_dx9\defpass_gbuffer.obj
+         Debug_dx9\defpass_shadow.obj
+         Debug_dx9\IDeferredExt.obj
+         Debug_dx9\lighting_global.obj
+         Debug_dx9\lighting_pass_basic.obj
+         Debug_dx9\lighting_pass_volum.obj
+         Debug_dx9\lighting_world.obj
+         Debug_dx9\lighting_volume.obj
+         Debug_dx9\radiosity_blend.obj
+         Debug_dx9\radiosity_global.obj
+         Debug_dx9\radiosity_propagate.obj
+         Debug_dx9\volume_blend.obj
+         Debug_dx9\volume_prepass.obj
+         ..\..\dx9sdk\lib\d3dx9.lib
+         ..\..\lib\public\interfaces.lib
+         ..\..\lib\public\mathlib.lib
+         ..\..\lib\public\matsys_controls.lib
+         ..\..\lib\public\shaderlib.lib
+         ..\..\lib\public\tier0.lib
+         ..\..\lib\public\tier1.lib
+         ..\..\lib\public\tier2.lib
+         ..\..\lib\public\tier3.lib
+         ..\..\lib\public\vstdlib.lib
+            Creating library Debug_dx9\game_shader_generic_deferred.lib and object Debug_dx9\game_shader_generic_deferred.exp
+         game_shader_generic_swarm.vcxproj -> C:\Projects\Games\swarm-deferred\src\materialsystem\swarmshaders\Debug_dx9\game_shader_generic_deferred.dll
+       CustomBuildStep:
+         if exist "D:\Steam\Steamapps\Sourcemods\SwarmDeferred\bin\game_shader_generic_deferred.dll" attrib -r "D:\Steam\Steamapps\Sourcemods\SwarmDeferred\bin\game_shader_generic_deferred.dll"
+         copy "C:\Projects\Games\swarm-deferred\src\materialsystem\swarmshaders\Debug_dx9\"game_shader_generic_deferred.dll "D:\Steam\Steamapps\Sourcemods\SwarmDeferred\bin"
+         if exist "C:\Projects\Games\swarm-deferred\src\materialsystem\swarmshaders\Debug_dx9\"game_shader_generic_deferred.map copy "C:\Projects\Games\swarm-deferred\src\materialsystem\swarmshaders\Debug_dx9\"game_shader_generic_deferred.map "D:\Steam\Steamapps\Sourcemods\SwarmDeferred\bin\game_shader_generic_deferred.map"
+         :VCEnd
+                 1 file(s) copied.
+                 1 file(s) copied.
+       FinalizeBuildStatus:
+         Deleting file "Debug_dx9\game_shader_generic_deferred.unsuccessfulbuild".
+         Touching "Debug_dx9\game_shader_generic_deferred.lastbuildstate".
+     1>Done Building Project "C:\Projects\Games\swarm-deferred\src\materialsystem\swarmshaders\game_shader_generic_swarm.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:06:43.75

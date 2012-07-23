@@ -1,0 +1,10 @@
+..\..\..\game\platform\shaders\fxc\radiosity_gen_global_ps30.vcs
+..\..\..\game\platform\shaders\fxc\radiosity_gen_vs30.vcs
+..\..\..\game\platform\shaders\fxc\radiosity_propagate_ps30.vcs
+..\..\..\game\platform\shaders\fxc\radiosity_propagate_vs30.vcs
+..\..\..\game\platform\shaders\fxc\radiosity_blend_ps30.vcs
+..\..\..\game\platform\shaders\fxc\debug_radiosity_grid_ps30.vcs
+..\..\..\game\platform\shaders\fxc\debug_radiosity_grid_vs30.vcs
+..\..\..\game\platform\shaders\fxc\shadowpass_vs30.vcs
+..\..\..\game\platform\shaders\fxc\shadowpass_ps30.vcs
+..\..\..\game\platform\shaders\fxc\lightingpass_global_ps30.vcs

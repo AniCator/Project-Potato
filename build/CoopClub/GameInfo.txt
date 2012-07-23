@@ -1,6 +1,6 @@
 "GameInfo"
 {
-	"game"		"Coop Club"
+	"game"		"Project Potato"
 	"title"		"    "	// asw - leave this blank as we have a texture logo
 	"type"		"multiplayer_only"
 	GameData	"swarm.fgd"
@@ -22,7 +22,7 @@
 			"Game"	"platform"
 			//"Game"	"../left 4 dead/left4dead"
 			//"Game"	"../left 4 dead 2/left4dead2"
-			//"Game"	"../portal 2/portal2"
+			"Game"	"../portal 2/portal2"
 		}
 	}
 }

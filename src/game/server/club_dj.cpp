@@ -2,10 +2,10 @@
 
 #include "cbase.h"
 
-class CClubDJ : public CBaseEntity
+class CClubDJ : public CLogicalEntity
 {
 	public:
-	DECLARE_CLASS( CClubDJ, CBaseEntity );
+	DECLARE_CLASS( CClubDJ, CLogicalEntity );
 
 	DECLARE_SERVERCLASS();
 

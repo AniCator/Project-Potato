@@ -4195,6 +4195,9 @@
     <ClInclude Include="deferred\flashlighteffect_deferred.h">
       <Filter>Source Files\deferred</Filter>
     </ClInclude>
+    <ClInclude Include="c_club_dj.h">
+      <Filter>Club</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\lib\public\bitmap.lib">

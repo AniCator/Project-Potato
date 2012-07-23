@@ -1,4 +1,4 @@
-﻿Build started 7/23/2012 21:23:20.
+﻿Build started 7/23/2012 22:22:54.
      1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Touching ".\Release_swarm\client.unsuccessfulbuild".
@@ -640,3 +640,23 @@
          ..\..\lib\public\vstdlib.lib
          ..\..\lib\public\vtf.lib
             Creating library .\Release_swarm\client.lib and object .\Release_swarm\client.exp
+         swarm_skeleton_client.vcxproj -> C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\.\Release_swarm\client.dll
+       CustomBuildStep:
+         Description: Performing Custom Build Step
+         if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.dll" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.dll"
+         copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\Release_swarm\"client.dll "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin"
+         copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\Release_swarm\"client.dll "..\..\..\build\CoopClub\bin\"
+         if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb"
+         if exist "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\Release_swarm\"client.pdb copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\Release_swarm\"client.pdb "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\client.pdb"
+         :VCEnd
+                 1 file(s) copied.
+                 1 file(s) copied.
+                 1 file(s) copied.
+       FinalizeBuildStatus:
+         Deleting file ".\Release_swarm\client.unsuccessfulbuild".
+         Touching ".\Release_swarm\client.lastbuildstate".
+     1>Done Building Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:29.86

@@ -1,24 +1,5 @@
 #include "cbase.h"
-#include "bass.h"
-
-class C_ClubDJ : public C_BaseEntity
-{
-	public:
-	DECLARE_CLASS( C_ClubDJ, C_BaseEntity );
-	DECLARE_CLIENTCLASS();
-
-	C_ClubDJ();
- 
-	// Input function
-	void ForcePlay( inputdata_t &inputData );
- 
-	private:
-};
- 
-LINK_ENTITY_TO_CLASS( club_dj, C_ClubDJ  );
-
-IMPLEMENT_CLIENTCLASS_DT( C_ClubDJ, DT_ClubDJ, CClubDJ )
-END_RECV_TABLE()
+#include "c_club_dj.h"
 
 C_ClubDJ::C_ClubDJ(){
 	Msg("Club DJ\nBy: AniCator & Th13teen\nInitializing...\n");
@@ -41,6 +22,10 @@ C_ClubDJ::C_ClubDJ(){
 	}
 }
 
+C_ClubDJ::~C_ClubDJ(){
+	BASS_Free();
+}
+
 void C_ClubDJ::ForcePlay( inputdata_t &inputData )
 {
 	Msg("(ClientSide) DJ: Shit should happen soon.. gotta code it first.\n\n");
@@ -48,3 +33,6 @@ void C_ClubDJ::ForcePlay( inputdata_t &inputData )
 	HSTREAM stream=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, 0, NULL, 0);
 	BASS_ChannelPlay(stream,true);
 }
+
+IMPLEMENT_CLIENTCLASS_DT( C_ClubDJ, DT_ClubDJ, CClubDJ )
+END_RECV_TABLE()

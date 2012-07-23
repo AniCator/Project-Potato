@@ -15,40 +15,7 @@
 		"tabPosition"			"0"
 		"PaintBackgroundType"	"0"
 	}
-	"BtnRunA"
-	{
-		"ControlName"			"BaseModHybridButton"
-		"fieldName"				"BtnRunA"
-		"xpos"					"100"
-		"ypos"					"195"
-		"wide"					"180"
-		"tall"					"19"
-		"autoResize"			"1"
-		"pinCorner"				"0"
-		"visible"				"1"
-		"enabled"				"1"
-		"tabPosition"			"0"
-		"labelText"				"RUN MAP 'TEST'"
-		"style"					"AlienSwarmMenuButtonBig"
-		"command"				"FlmRunA"
-	}
-	"BtnRunB"
-	{
-		"ControlName"			"BaseModHybridButton"
-		"fieldName"				"BtnRunB"
-		"xpos"					"100"
-		"ypos"					"215"
-		"wide"					"180"
-		"tall"					"19"
-		"autoResize"			"1"
-		"pinCorner"				"0"
-		"visible"				"1"
-		"enabled"				"1"
-		"tabPosition"			"0"
-		"labelText"				"RUN MAP 'TEST_COOKIES'"
-		"style"					"AlienSwarmMenuButtonBig"
-		"command"				"FlmRunB"
-	}
+	
 	"BtnRunC"
 	{
 		"ControlName"			"BaseModHybridButton"
@@ -62,7 +29,7 @@
 		"visible"				"1"
 		"enabled"				"1"
 		"tabPosition"			"0"
-		"labelText"				"RUN MAP 'TEST_VOLUMETRICS'"
+		"labelText"				"Join the CoopCrowd Club!"
 		"style"					"AlienSwarmMenuButtonBig"
 		"command"				"FlmRunC"
 	}

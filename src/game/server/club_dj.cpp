@@ -7,8 +7,10 @@ class CClubDJ : public CBaseEntity
 {
 	public:
 	DECLARE_CLASS( CClubDJ, CBaseEntity );
-	DECLARE_DATADESC();
+
 	DECLARE_SERVERCLASS();
+
+	DECLARE_DATADESC();
 
 	int UpdateTransmitState()	// always send to all clients
 	{
@@ -29,6 +31,9 @@ class CClubDJ : public CBaseEntity
 };
  
 LINK_ENTITY_TO_CLASS( club_dj, CClubDJ  );
+
+IMPLEMENT_SERVERCLASS_ST( CClubDJ, DT_ClubDJ )
+END_SEND_TABLE()
  
 // Start of our data description for the class
 BEGIN_DATADESC( CClubDJ  )

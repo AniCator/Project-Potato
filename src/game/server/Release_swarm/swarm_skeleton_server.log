@@ -1,5 +1,5 @@
-﻿Build started 7/23/2012 20:53:43.
-     1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\server\swarm_skeleton_server.vcxproj" on node 3 (build target(s)).
+﻿Build started 7/23/2012 20:57:04.
+     1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\server\swarm_skeleton_server.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Release_swarm\server.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
@@ -521,11 +521,23 @@
          ..\..\lib\public\vgui_controls.lib
          ..\..\lib\public\vstdlib.lib
             Creating library .\Release_swarm\server.lib and object .\Release_swarm\server.exp
-     1>club_dj.obj : error LNK2001: unresolved external symbol "public: virtual class ServerClass * __thiscall CClubDJ::GetServerClass(void)" (?GetServerClass@CClubDJ@@UAEPAVServerClass@@XZ)
-     1>club_dj.obj : error LNK2001: unresolved external symbol "public: virtual int __thiscall CClubDJ::YouForgotToImplementOrDeclareServerClass(void)" (?YouForgotToImplementOrDeclareServerClass@CClubDJ@@UAEHXZ)
-     1>.\Release_swarm\server.dll : fatal error LNK1120: 2 unresolved externals
-     1>Done Building Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\server\swarm_skeleton_server.vcxproj" (build target(s)) -- FAILED.
+         swarm_skeleton_server.vcxproj -> C:\Users\AniCator\SparkleShare\Project-Potato\src\game\server\.\Release_swarm\server.dll
+       CustomBuildStep:
+         Description: Performing Custom Build Step
+         if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\server.dll" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\server.dll"
+         copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\server\Release_swarm\"server.dll "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin"
+         copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\server\Release_swarm\"server.dll "..\..\..\build\CoopClub\bin\"
+         if exist "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\server.pdb" attrib -r "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\server.pdb"
+         if exist "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\server\Release_swarm\"server.pdb copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\server\Release_swarm\"server.pdb "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\server.pdb"
+         :VCEnd
+                 1 file(s) copied.
+                 1 file(s) copied.
+                 1 file(s) copied.
+       FinalizeBuildStatus:
+         Deleting file ".\Release_swarm\server.unsuccessfulbuild".
+         Touching ".\Release_swarm\server.lastbuildstate".
+     1>Done Building Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\server\swarm_skeleton_server.vcxproj" (build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:29.30
+Time Elapsed 00:00:24.02

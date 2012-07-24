@@ -1,4 +1,4 @@
-﻿Build started 7/24/2012 01:33:04.
+﻿Build started 7/24/2012 03:54:18.
      1>Project "C:\Users\AniCator\sparkleshare\project-potato\src\game\client\swarm_skeleton_client.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Release_swarm\client.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -9,10 +9,9 @@
          c_club_dj.cpp
      1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\winbase.h(59): warning C4005: 'INVALID_HANDLE_VALUE' : macro redefinition
                  C:\Users\AniCator\SparkleShare\Project-Potato\src\common\xbox/xboxstubs.h(112) : see previous definition of 'INVALID_HANDLE_VALUE'
-     1>c_club_dj.cpp(73): warning C4189: 'stream' : local variable is initialized but not referenced
          All outputs are up-to-date.
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Release_swarm\client.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\..\lib\ /LIBPATH:..\..\lib\common\. /LIBPATH:..\..\lib\public\. bass.lib winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc /NODEFAULTLIB:libcd /NODEFAULTLIB:libcmtd /MANIFEST:NO /DEBUG /PDB:".\Release_swarm\client.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /DLL .\Release_swarm\language.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Release_swarm\client.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\..\lib\ /LIBPATH:..\..\lib\common\. /LIBPATH:..\..\lib\public\. bass.lib bass_vst.lib winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc /NODEFAULTLIB:libcd /NODEFAULTLIB:libcmtd /MANIFEST:NO /DEBUG /PDB:".\Release_swarm\client.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /DLL .\Release_swarm\language.obj
          .\Release_swarm\CDefLight.obj
          .\Release_swarm\CDefLightContainer.obj
          .\Release_swarm\CDefLightGlobal.obj
@@ -660,4 +659,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:31.87
+Time Elapsed 00:00:28.16

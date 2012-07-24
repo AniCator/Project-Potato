@@ -1,4 +1,5 @@
 #include "cbase.h"
+#include "mathlib\mathlib.h"
 #include "bass.h"
 
 class C_ClubDJ : public C_BaseEntity
@@ -9,9 +10,13 @@ public:
 
 	C_ClubDJ();
 	~C_ClubDJ();
+
 	void ForcePlay();
 	void ForceStop();
+
 	void OnDataChanged( DataUpdateType_t type );
+	void Spawn();
+	void ClientThink();
  
 	BOOL bassInit;
 	HSTREAM stream1;
@@ -56,25 +61,26 @@ C_ClubDJ::~C_ClubDJ(){
 
 void C_ClubDJ::ForcePlay(){
 	//put stuff here
-	Msg("huh? am i supposed to do something?\n");
 	if(bassInit){
-		stream1=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, 0, NULL, 0);
+		if(stream1==NULL){
+			stream1=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
+		}
 		BASS_ChannelPlay(stream1,true);
+		Msg("CoopCrowd Club is Live!\n");
 	}
 	else{
-		Msg("I can't do shit when BASS is borked.\n");
+		Msg("CoopCrowd Club's DJ is experiencing brain thingies!\n");
 	}
 }
 
 void C_ClubDJ::ForceStop(){
 	//put stuff here
-	Msg("huh? am i supposed to do something?\n");
 	if(bassInit){
-		HSTREAM stream=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, 0, NULL, 0);
 		BASS_ChannelStop(stream1);
+		Msg("aaaaaaaand stream's stopped.\n");
 	}
 	else{
-		Msg("I can't do shit when BASS is borked.\n");
+		Msg("CoopCrowd Club's DJ is experiencing brain thingies!\n");
 	}
 }
 
@@ -85,4 +91,48 @@ void C_ClubDJ::OnDataChanged( DataUpdateType_t type ){
 	else{
 		ForceStop();
 	}
+}
+
+void C_ClubDJ::Spawn(){
+	SetNextClientThink( CLIENT_THINK_ALWAYS );
+}
+
+BASS_3DVECTOR *Get3DVect(const Vector vect)
+{
+        BASS_3DVECTOR *vec = new BASS_3DVECTOR;
+        vec->x = vect.x;
+        vec->y = vect.y;
+        vec->z = vect.z;
+        return vec;
+}
+
+void C_ClubDJ::ClientThink(){
+	if(stream1!=NULL){
+		BASS_3DVECTOR *playerPos = Get3DVect(C_BasePlayer::GetLocalPlayer()->GetAbsOrigin());
+        BASS_3DVECTOR *playerVel = Get3DVect(C_BasePlayer::GetLocalPlayer()->GetAbsVelocity());
+
+		Vector fwd, rt, up;
+		AngleVectors(C_BasePlayer::GetLocalPlayer()->GetAbsAngles(), &fwd, &rt, &up);
+		BASS_3DVECTOR *playerFront = Get3DVect(fwd*-1);
+		BASS_3DVECTOR *playerTop = Get3DVect(up);
+
+		BASS_Set3DFactors(1.0, 0.001, 0.005);
+		BASS_Set3DPosition(playerPos,playerVel,playerFront,playerTop);
+		BASS_3DVECTOR *pos = Get3DVect(GetAbsOrigin());
+        BASS_3DVECTOR *orient = Get3DVect(Vector(GetAbsAngles().x,GetAbsAngles().y,GetAbsAngles().z));
+        BASS_3DVECTOR *vel = Get3DVect(GetAbsVelocity());
+		
+        BASS_ChannelSet3DAttributes(stream1, BASS_3DMODE_NORMAL, 0, 0, 360, 360, 0);
+        BASS_ChannelSet3DPosition(stream1, pos, orient, vel);
+		BASS_Apply3D();
+
+		delete pos;
+		delete orient;
+		delete vel;
+		delete playerPos;
+		delete playerVel;
+		delete playerFront;
+		delete playerTop;
+	}
+	SetNextClientThink( CLIENT_THINK_ALWAYS );
 }

@@ -1,4 +1,4 @@
-﻿Build started 7/24/2012 14:54:14.
+﻿Build started 7/24/2012 16:08:39.
      1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\shaderlib\shaderlib_swarm.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Release\shaderlib.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -18,4 +18,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.23
+Time Elapsed 00:00:00.60

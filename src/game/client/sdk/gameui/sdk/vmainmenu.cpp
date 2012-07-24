@@ -103,7 +103,7 @@ void MainMenu::OnCommand( const char *command )
 	bool bOpeningFlyout = false;
 	if ( !Q_stricmp( command, "FlmRunA" ) )
 	{
-		engine->ClientCmd( "map club_dev" ); //set this to 'connect server.anicator.com' when ready
+		engine->ClientCmd( "map club_dev" ); //set this to 'map club_dev' when ready
 	}
 	else if ( !Q_stricmp( command, "FlmRunB" ) )
 	{
@@ -111,7 +111,7 @@ void MainMenu::OnCommand( const char *command )
 	}
 	else if ( !Q_stricmp( command, "FlmRunC" ) )
 	{
-		engine->ClientCmd( "map test_volumetrics" ); //set this to 'connect server.anicator.com' when ready
+		engine->ClientCmd( "connect server.anicator.com" ); //set this to 'connect server.anicator.com' when ready
 	}
 	else if ( !Q_stricmp( command, "commandConsole" ) )
 	{

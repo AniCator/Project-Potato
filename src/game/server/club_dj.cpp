@@ -112,10 +112,9 @@ void CClubDJ::Think(){
 	if(serverStream1!=NULL){
 		float fft[512]; // fft data buffer
 		BASS_ChannelGetData(serverStream1, fft, BASS_DATA_FFT1024);
-		if(lightMain!=NULL){
-			CDeferredLight* lightMain_ = dynamic_cast<CDeferredLight*>( lightMain.Get() );
-			delete lightMain_;
-		}
+		//CHandle<CDeferredLight> lightHigh_ = lightHigh;
+		//lightHigh_->SetRadius(fft[50]);
+		//Msg("radius: %f",lightHigh_->GetRadius());
 	}
 
 	SetNextThink( gpGlobals->curtime + 0.1 );

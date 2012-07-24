@@ -16,6 +16,24 @@
 		"PaintBackgroundType"	"0"
 	}
 	
+	"BtnRunA"
+	{
+		"ControlName"			"BaseModHybridButton"
+		"fieldName"				"BtnRunA"
+		"xpos"					"100"
+		"ypos"					"205"
+		"wide"					"180"
+		"tall"					"19"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"visible"				"1"
+		"enabled"				"1"
+		"tabPosition"			"0"
+		"labelText"				"Have a Solo Party!"
+		"style"					"AlienSwarmMenuButtonBig"
+		"command"				"FlmRunA"
+	}
+	
 	"BtnRunC"
 	{
 		"ControlName"			"BaseModHybridButton"

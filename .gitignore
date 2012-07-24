@@ -10,3 +10,5 @@
 /src/game/server/Release_swarm
 /src/game/server/Debug_swarm
 /src/materialsystem/swarmshaders/Release_dx9
+/src/game/client/Release_swarm
+/src/game/client/Debug_swarm

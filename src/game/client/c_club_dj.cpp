@@ -71,8 +71,8 @@ void C_ClubDJ::ForcePlay(){
 	if(bassInit){
 		if(stream1==NULL){
 			//Create new stream
-			stream1=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
-			DWORD dsp = BASS_VST_ChannelSetDSP(stream1,"ClassicReverb.dll",0,0);
+			stream1=BASS_StreamCreateURL("http://anicator.com/gallery/music/portalRedux.mp3", 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
+			//DWORD dsp = BASS_VST_ChannelSetDSP(stream1,"ClassicReverb.dll",0,0);
 		}
 		//Play stream
 		BASS_ChannelPlay(stream1,true);
@@ -100,13 +100,11 @@ void C_ClubDJ::ForceStop(){
 }
 
 void C_ClubDJ::OnDataChanged( DataUpdateType_t type ){
-	if(type==DATA_UPDATE_DATATABLE_CHANGED){
-		if(bDJEnabled){
-			ForcePlay();
-		}
-		else{
-			ForceStop();
-		}
+	if(bDJEnabled){
+		ForcePlay();
+	}
+	else{
+		ForceStop();
 	}
 }
 

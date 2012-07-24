@@ -170,10 +170,10 @@ void C_ClubDJ::ClientThink(){
 		float multVolume = volume.GetFloat()*musicVolume.GetFloat();
 		
 		if(GetFocus()==hWndPotato){
-			BASS_SetVolume(multVolume);
+			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,multVolume);
 		}
 		else{
-			BASS_SetVolume(0.0);
+			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,0.0);
 		}
 
 		//Apply 3D data changes

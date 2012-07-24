@@ -4,7 +4,7 @@
 [
 	input ForcePlay(void) : "Force DJ entity to play a track."
 	
-	lightMain(target_destination) : "Main Light" : "some big light maybe"
-	lightBass(target_destination) : "Bass Light" : "triggered by bassy stuff"
-	lightHigh(target_destination) : "High Light" : "triggered by highs"
+	lightMain(target_destination) : "Main Light" : : "main light"
+	lightBass(target_destination) : "Bass Light" : : "triggered by bassy stuff"
+	lightHigh(target_destination) : "High Light" : : "triggered by highs"
 ]

@@ -1,4 +1,5 @@
 #include "cbase.h"
+#include "deferred\CDefLight.h"
 #include "bass.h"
 
 class CClubDJ : public CBaseEntity
@@ -22,6 +23,10 @@ public:
 	BOOL bassInit;
 	HSTREAM serverStream1;
 	HSTREAM serverStream2;
+
+	EHANDLE lightMain;
+	EHANDLE lightBass;
+	EHANDLE lightHigh;
  
 	//testvars
 	CNetworkVar( bool, bDJEnabled );
@@ -37,6 +42,10 @@ END_SEND_TABLE()
 
 BEGIN_DATADESC( CClubDJ )
 	DEFINE_INPUTFUNC( FIELD_VOID, "ForcePlay", ForcePlay ),
+
+	DEFINE_KEYFIELD( lightMain, FIELD_EHANDLE, "lightMain" ),
+	DEFINE_KEYFIELD( lightBass, FIELD_EHANDLE, "lightBass" ),
+	DEFINE_KEYFIELD( lightHigh, FIELD_EHANDLE, "lightHigh" ),
 END_DATADESC()
 
 CClubDJ::CClubDJ(){
@@ -103,6 +112,10 @@ void CClubDJ::Think(){
 	if(serverStream1!=NULL){
 		float fft[512]; // fft data buffer
 		BASS_ChannelGetData(serverStream1, fft, BASS_DATA_FFT1024);
+		if(lightMain!=NULL){
+			CDeferredLight* lightMain_ = dynamic_cast<CDeferredLight*>( lightMain.Get() );
+			delete lightMain_;
+		}
 	}
 
 	SetNextThink( gpGlobals->curtime + 0.1 );

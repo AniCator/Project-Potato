@@ -150,6 +150,12 @@ void C_ClubDJ::ClientThink(){
 		//Set club_dj position on BASS interface
         BASS_ChannelSet3DAttributes(stream1, BASS_3DMODE_NORMAL, 0, 0, 360, 360, 0);
         BASS_ChannelSet3DPosition(stream1, pos, orient, vel);
+		
+		//Update volume
+		ConVarRef volume("volume");
+		ConVarRef musicVolume("snd_musicvolume");
+		float multVolume = volume.GetFloat()*musicVolume.GetFloat();
+		BASS_SetVolume(multVolume);
 
 		//Apply 3D data changes
 		BASS_Apply3D();

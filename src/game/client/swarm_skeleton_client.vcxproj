@@ -1336,7 +1336,6 @@ if exist "$(TargetDir)"$(ProjectName).pdb copy "$(TargetDir)"$(ProjectName).pdb 
     <ClInclude Include="..\..\common\blackbox_helper.h" />
     <ClInclude Include="c_baselesson.h" />
     <ClInclude Include="c_basetoggle.h" />
-    <ClInclude Include="c_club_dj.h" />
     <ClInclude Include="c_colorcorrection.h" />
     <ClInclude Include="c_env_ambient_light.h" />
     <ClInclude Include="c_env_projectedtexture.h" />

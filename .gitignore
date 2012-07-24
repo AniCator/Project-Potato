@@ -1,3 +1,12 @@
 
 /src/modProps.props
 /src/swarm_deferred.suo
+/src/materialsystem/swarmshaders/Release_dx9
+/src/materialsystem/swarmshaders/Debug_dx9
+/src/materialsystem/shaderlib/Release
+/src/materialsystem/shaderlib/Debug
+/src/game/client/Release_swarm
+/src/game/client/Debug_swarm
+/src/game/server/Release_swarm
+/src/game/server/Debug_swarm
+/src/materialsystem/swarmshaders/Release_dx9

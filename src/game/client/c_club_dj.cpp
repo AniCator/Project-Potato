@@ -20,23 +20,26 @@ public:
 	void ClientThink();
  
 	BOOL bassInit;
+	HWND hWndPotato;
 	HSTREAM stream1;
 	HSTREAM stream2;
-public:
+
 	//testvars
 	CNetworkVar( bool, bDJEnabled );
+	CNetworkVar( float, bDJStream1Pos);
 };
 
 LINK_ENTITY_TO_CLASS( club_dj, C_ClubDJ );
 
 IMPLEMENT_CLIENTCLASS_DT( C_ClubDJ, DT_ClubDJ, CClubDJ )
 	RecvPropInt( RECVINFO( bDJEnabled ) ),
+	RecvPropFloat(RECVINFO(bDJStream1Pos)),
 END_RECV_TABLE()
 
 C_ClubDJ::C_ClubDJ(){
 	bDJEnabled=false;
 
-	HWND hWndPotato = FindWindowA("Valve001", "Project Potato");
+	hWndPotato = FindWindowA("Valve001", "Project Potato");
 	if(!hWndPotato)
 	{
 		Error("Unable to find window for BASS library");
@@ -46,8 +49,14 @@ C_ClubDJ::C_ClubDJ(){
 	if(!bassInit)
 	{
 		int error = BASS_ErrorGetCode();
-		Msg("BASS Init failed, error code %d\n", error);
-		Error("BASS Init error");
+		if(error==BASS_ERROR_ALREADY){
+			Msg("BASS: Probably running listen server. Bass is already running and doesn't have to be re-initialized.\n");
+			bassInit=true;
+		}
+		else{
+			Msg("BASS Init failed, error code %d\n", error);
+			Error("BASS Init failed, error code %d\n", error);
+		}
 	}
 	else{
 		Msg("BASS module has been initialized...\n");
@@ -76,6 +85,7 @@ void C_ClubDJ::ForcePlay(){
 		}
 		//Play stream
 		BASS_ChannelPlay(stream1,true);
+		BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1);
 		Msg("CoopCrowd Club is Live!\n");
 	}
 	else{
@@ -100,6 +110,7 @@ void C_ClubDJ::ForceStop(){
 }
 
 void C_ClubDJ::OnDataChanged( DataUpdateType_t type ){
+	BaseClass::OnDataChanged( type );
 	if(bDJEnabled){
 		ForcePlay();
 	}
@@ -109,6 +120,7 @@ void C_ClubDJ::OnDataChanged( DataUpdateType_t type ){
 }
 
 void C_ClubDJ::Spawn(){
+	BaseClass::Spawn();
 	SetNextClientThink( CLIENT_THINK_ALWAYS );
 }
 
@@ -127,6 +139,7 @@ BASS_3DVECTOR *Get3DVect(const Vector vect)
 }
 
 void C_ClubDJ::ClientThink(){
+	BaseClass::ClientThink();
 	if(stream1!=NULL){
 		//Register player position and velocity
 		BASS_3DVECTOR *playerPos = Get3DVect(C_BasePlayer::GetLocalPlayer()->GetAbsOrigin());
@@ -139,7 +152,7 @@ void C_ClubDJ::ClientThink(){
 		BASS_3DVECTOR *playerTop = Get3DVect(up);
 
 		//Set 3D Factors and player position
-		BASS_Set3DFactors(1.0, 0.001, 0.005);
+		BASS_Set3DFactors(1.0, 0.005, 0.005);
 		BASS_Set3DPosition(playerPos,playerVel,playerFront,playerTop);
 
 		//Register club_dj position, angles and velocity
@@ -155,7 +168,13 @@ void C_ClubDJ::ClientThink(){
 		ConVarRef volume("volume");
 		ConVarRef musicVolume("snd_musicvolume");
 		float multVolume = volume.GetFloat()*musicVolume.GetFloat();
-		BASS_SetVolume(multVolume);
+		
+		if(GetFocus()==hWndPotato){
+			BASS_SetVolume(multVolume);
+		}
+		else{
+			BASS_SetVolume(0.0);
+		}
 
 		//Apply 3D data changes
 		BASS_Apply3D();

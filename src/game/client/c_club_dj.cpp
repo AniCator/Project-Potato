@@ -88,7 +88,7 @@ void C_ClubDJ::ForcePlay(){
 	if(bassInit){
 		if(stream1==NULL){
 			//Create new stream
-			stream1=BASS_StreamCreateURL("http://mirror.anicator.com/anthem.mp3", 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
+			stream1=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
 			//DWORD dsp = BASS_VST_ChannelSetDSP(stream1,"ClassicReverb.dll",0,0);
 		}
 		//Play stream

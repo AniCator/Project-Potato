@@ -30,6 +30,8 @@ public:
 	CDeferredLight *lightMain;
 	CDeferredLight *lightBass;
 	CDeferredLight *lightHigh;
+	CDeferredLight *lightGreen;
+	CDeferredLight *lightYellow;
 
 	float oldMain;
 	float oldBass;
@@ -83,6 +85,8 @@ void CClubDJ::Spawn(){
 	lightMain = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light1"));
 	lightBass = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light2"));
 	lightHigh = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light3"));
+	lightGreen = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light4"));
+	lightYellow = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light5"));
 
 	if(lightMain!=NULL){
 		Msg("Found Main Light for club_dj.\n");
@@ -112,7 +116,7 @@ void CClubDJ::ForcePlay(inputdata_t &inputData){
 		if(bassInit){
 			if(serverStream1==NULL){
 				//Create new stream
-				serverStream1=BASS_StreamCreateURL("http://mirror.anicator.com/anthem.mp3", 0, 0, NULL, 0);
+				serverStream1=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, 0, NULL, 0);
 			}
 			//Play stream
 			BASS_ChannelPlay(serverStream1,true);
@@ -151,15 +155,13 @@ void CClubDJ::Think(){
 			ss<<FFTAverage(fft,25,10)*10000;
 			diff.append(ss.str());
 			lightMain->SetColor_Diffuse(stringColToVec(diff.c_str()));
-			oldMain=FFTAverage(fft,25,50)*10000;
 		}
 		if(lightBass!=NULL){
 			std::string diff = "0 0 255 ";
 			std::stringstream ss;
-			ss<<FFTAverage(fft,5,10)*10000;
+			ss<<FFTAverage(fft,5,10)*5000;
 			diff.append(ss.str());
 			lightBass->SetColor_Diffuse(stringColToVec(diff.c_str()));
-			oldBass=FFTAverage(fft,5,50)*10000;
 		}
 		if(lightHigh!=NULL){
 			std::string diff = "255 255 255 ";
@@ -167,9 +169,22 @@ void CClubDJ::Think(){
 			ss<<FFTAverage(fft,100,10)*200000;
 			diff.append(ss.str());
 			lightHigh->SetColor_Diffuse(stringColToVec(diff.c_str()));
-			oldHigh=FFTAverage(fft,100,50)*200000;
+		}
+		if(lightGreen!=NULL){
+			std::string diff = "0 255 0 ";
+			std::stringstream ss;
+			ss<<FFTAverage(fft,300,10)*200000;
+			diff.append(ss.str());
+			lightGreen->SetColor_Diffuse(stringColToVec(diff.c_str()));
+		}
+		if(lightYellow!=NULL){
+			std::string diff = "255 255 0 ";
+			std::stringstream ss;
+			ss<<FFTAverage(fft,400,10)*200000;
+			diff.append(ss.str());
+			lightYellow->SetColor_Diffuse(stringColToVec(diff.c_str()));
 		}
 	}
 
-	SetNextThink( gpGlobals->curtime + 0.1 );
+	SetNextThink( gpGlobals->curtime + 0.05 );
 }

@@ -1,6 +1,9 @@
 #include "cbase.h"
 #include "deferred\CDefLight.h"
+#include "deferred\deferred_shared_common.h"
 #include "bass.h"
+#include <string>
+#include <sstream>
 
 class CClubDJ : public CBaseEntity
 {
@@ -24,9 +27,13 @@ public:
 	HSTREAM serverStream1;
 	HSTREAM serverStream2;
 
-	EHANDLE lightMain;
-	EHANDLE lightBass;
-	EHANDLE lightHigh;
+	CDeferredLight *lightMain;
+	CDeferredLight *lightBass;
+	CDeferredLight *lightHigh;
+
+	float oldMain;
+	float oldBass;
+	float oldHigh;
  
 	//testvars
 	CNetworkVar( bool, bDJEnabled );
@@ -43,9 +50,9 @@ END_SEND_TABLE()
 BEGIN_DATADESC( CClubDJ )
 	DEFINE_INPUTFUNC( FIELD_VOID, "ForcePlay", ForcePlay ),
 
-	DEFINE_KEYFIELD( lightMain, FIELD_EHANDLE, "lightMain" ),
-	DEFINE_KEYFIELD( lightBass, FIELD_EHANDLE, "lightBass" ),
-	DEFINE_KEYFIELD( lightHigh, FIELD_EHANDLE, "lightHigh" ),
+	//DEFINE_KEYFIELD( lightMain, FIELD_EHANDLE, "lightMain" ),
+	//DEFINE_KEYFIELD( lightBass, FIELD_EHANDLE, "lightBass" ),
+	//DEFINE_KEYFIELD( lightHigh, FIELD_EHANDLE, "lightHigh" ),
 END_DATADESC()
 
 CClubDJ::CClubDJ(){
@@ -66,11 +73,24 @@ CClubDJ::CClubDJ(){
 	}
 	else{
 		Msg("BASS module has been initialized...\n");
+		BASS_SetVolume(BASS_GetVolume());
 	}
 }
 
 void CClubDJ::Spawn(){
 	BaseClass::Spawn();
+
+	lightMain = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light1"));
+	lightBass = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light2"));
+	lightHigh = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light3"));
+
+	if(lightMain!=NULL){
+		Msg("Found Main Light for club_dj.\n");
+	}
+	else{
+		Warning("Could not find Main Light for club_dj!");
+	}
+
 	SetNextThink( gpGlobals->curtime);
 }
 
@@ -92,11 +112,11 @@ void CClubDJ::ForcePlay(inputdata_t &inputData){
 		if(bassInit){
 			if(serverStream1==NULL){
 				//Create new stream
-				serverStream1=BASS_StreamCreateURL("http://anicator.com/gallery/music/portalRedux.mp3", 0, 0, NULL, 0);
+				serverStream1=BASS_StreamCreateURL("http://mirror.anicator.com/anthem.mp3", 0, 0, NULL, 0);
 			}
 			//Play stream
 			BASS_ChannelPlay(serverStream1,true);
-			BASS_ChannelSetAttribute(serverStream1,BASS_ATTRIB_VOL,0);
+			BASS_ChannelSetAttribute(serverStream1,BASS_ATTRIB_VOL,0.0f);
 			Msg("CoopCrowd Club is Live!\n");
 		}
 		else{
@@ -106,15 +126,49 @@ void CClubDJ::ForcePlay(inputdata_t &inputData){
 	NetworkStateChanged();
 }
 
+float FFTAverage(float fft[],int index,int range){
+	int low = index-(range/2);
+	int high = index+(range/2);
+
+	float sum = 0;
+	int count = 0;
+	for(int i = low;i<high;i++){
+		sum+=fft[i];
+		count++;
+	}
+	return sum/count;
+}
+
 void CClubDJ::Think(){
 	BaseClass::Think();
 	
 	if(serverStream1!=NULL){
 		float fft[512]; // fft data buffer
 		BASS_ChannelGetData(serverStream1, fft, BASS_DATA_FFT1024);
-		//CHandle<CDeferredLight> lightHigh_ = lightHigh;
-		//lightHigh_->SetRadius(fft[50]);
-		//Msg("radius: %f",lightHigh_->GetRadius());
+		if(lightMain!=NULL){
+			std::string diff = "255 0 0 ";
+			std::stringstream ss;
+			ss<<FFTAverage(fft,25,10)*10000;
+			diff.append(ss.str());
+			lightMain->SetColor_Diffuse(stringColToVec(diff.c_str()));
+			oldMain=FFTAverage(fft,25,50)*10000;
+		}
+		if(lightBass!=NULL){
+			std::string diff = "0 0 255 ";
+			std::stringstream ss;
+			ss<<FFTAverage(fft,5,10)*10000;
+			diff.append(ss.str());
+			lightBass->SetColor_Diffuse(stringColToVec(diff.c_str()));
+			oldBass=FFTAverage(fft,5,50)*10000;
+		}
+		if(lightHigh!=NULL){
+			std::string diff = "255 255 255 ";
+			std::stringstream ss;
+			ss<<FFTAverage(fft,100,10)*200000;
+			diff.append(ss.str());
+			lightHigh->SetColor_Diffuse(stringColToVec(diff.c_str()));
+			oldHigh=FFTAverage(fft,100,50)*200000;
+		}
 	}
 
 	SetNextThink( gpGlobals->curtime + 0.1 );

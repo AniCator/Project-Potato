@@ -3,6 +3,13 @@
 #include "bass.h"
 #include "bass_vst.h"
 
+ConVar club_distf("club_distf", "0.4", FCVAR_CHEAT, "BASS - Audible distance factor" );
+ConVar club_roll("club_roll", "2", FCVAR_CHEAT, "BASS - Rollof factor" );
+ConVar club_doppler("club_doppler", "0.01", FCVAR_CHEAT, "BASS - Doppler factor" );
+
+ConVar club_maxdist("club_maxdist", "5000", FCVAR_CHEAT, "BASS - Maximum audible distance" );
+ConVar club_mindist("club_mindist", "500", FCVAR_CHEAT, "BASS - Minimum audible distance" );
+
 class C_ClubDJ : public C_BaseEntity
 {
 public:
@@ -60,6 +67,7 @@ C_ClubDJ::C_ClubDJ(){
 	}
 	else{
 		Msg("BASS module has been initialized...\n");
+		BASS_SetVolume(BASS_GetVolume());
 	}
 }
 
@@ -80,12 +88,12 @@ void C_ClubDJ::ForcePlay(){
 	if(bassInit){
 		if(stream1==NULL){
 			//Create new stream
-			stream1=BASS_StreamCreateURL("http://anicator.com/gallery/music/portalRedux.mp3", 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
+			stream1=BASS_StreamCreateURL("http://mirror.anicator.com/anthem.mp3", 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
 			//DWORD dsp = BASS_VST_ChannelSetDSP(stream1,"ClassicReverb.dll",0,0);
 		}
 		//Play stream
 		BASS_ChannelPlay(stream1,true);
-		BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1);
+		BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1.0f);
 		Msg("CoopCrowd Club is Live!\n");
 	}
 	else{
@@ -152,7 +160,10 @@ void C_ClubDJ::ClientThink(){
 		BASS_3DVECTOR *playerTop = Get3DVect(up);
 
 		//Set 3D Factors and player position
-		BASS_Set3DFactors(1.0, 0.005, 0.005);
+		ConVarRef dist = ConVarRef("club_distf");
+		ConVarRef roll = ConVarRef("club_roll");
+		ConVarRef doppl = ConVarRef("club_doppler");
+		BASS_Set3DFactors(dist.GetFloat(), roll.GetFloat(), doppl.GetFloat());
 		BASS_Set3DPosition(playerPos,playerVel,playerFront,playerTop);
 
 		//Register club_dj position, angles and velocity
@@ -161,7 +172,9 @@ void C_ClubDJ::ClientThink(){
         BASS_3DVECTOR *vel = Get3DVect(GetAbsVelocity());
 		
 		//Set club_dj position on BASS interface
-        BASS_ChannelSet3DAttributes(stream1, BASS_3DMODE_NORMAL, 0, 0, 360, 360, 0);
+		ConVarRef mindist = ConVarRef("club_mindist");
+		ConVarRef maxdist = ConVarRef("club_maxdist");
+        BASS_ChannelSet3DAttributes(stream1, BASS_3DMODE_NORMAL, mindist.GetFloat(), maxdist.GetFloat(), 360, 360, 0);
         BASS_ChannelSet3DPosition(stream1, pos, orient, vel);
 		
 		//Update volume
@@ -173,7 +186,7 @@ void C_ClubDJ::ClientThink(){
 			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,multVolume);
 		}
 		else{
-			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,0.0);
+			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1.0);
 		}
 
 		//Apply 3D data changes

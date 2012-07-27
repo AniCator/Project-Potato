@@ -1,12 +1,14 @@
-﻿Build started 7/24/2012 16:08:44.
+﻿Build started 7/27/2012 16:02:08.
      1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Release_swarm\client.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I.\hl2 /I.\sdk /I.\sdk\vgui /I..\..\lib\ /I..\statemachine /I..\..\game\shared\multiplayer /I..\..\game\shared\sdk /I.\ /I..\..\common /I..\..\public /I..\..\public\tier0 /I..\..\public\tier1 /I..\..\game\shared /I.\game_controls /I.\Release_swarm\ /I..\..\game\client\sdk\gameui /Zi /nologo /W4 /WX- /O2 /Ob2 /Oi /Ot /Oy- /D WIN32 /D _WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D DLLNAME=client /D VPCGAME=swarm /D VPCGAMECAPS=SWARM /D _DLL_EXT=.dll /D COMPILER_MSVC32 /D COMPILER_MSVC /D MEMOVERRIDE_MODULE=client /D NO_STRING_T /D CLIENT_DLL /D VECTOR /D VERSION_SAFE_STEAM_API_INTERFACES /D PROTECTED_THINGS_ENABLE /D strncpy=use_Q_strncpy_instead /D _snprintf=use_Q_snprintf_instead /D ENABLE_HTMLWINDOW /D fopen=dont_use_fopen /D SDK_CLIENT_DLL /D SDK_DLL /D SPLIT_SCREEN_STUBS /D GAMEUI_EMBEDDED /D GAMEUI_EXPORTS /D DEFERRED_DEV /D _WINDLL /D _MBCS /GF /Gm- /MT /GS- /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /GR /Fo".\Release_swarm\\" /Fd".\Release_swarm\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt sdk\gameui\sdk\vmainmenu.cpp /MP 
-         vmainmenu.cpp
          All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I.\hl2 /I.\sdk /I.\sdk\vgui /I..\..\lib\ /I..\statemachine /I..\..\game\shared\multiplayer /I..\..\game\shared\sdk /I.\ /I..\..\common /I..\..\public /I..\..\public\tier0 /I..\..\public\tier1 /I..\..\game\shared /I.\game_controls /I.\Release_swarm\ /I..\..\game\client\sdk\gameui /Zi /nologo /W4 /WX- /O2 /Ob2 /Oi /Ot /Oy- /D WIN32 /D _WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D DLLNAME=client /D VPCGAME=swarm /D VPCGAMECAPS=SWARM /D _DLL_EXT=.dll /D COMPILER_MSVC32 /D COMPILER_MSVC /D MEMOVERRIDE_MODULE=client /D NO_STRING_T /D CLIENT_DLL /D VECTOR /D VERSION_SAFE_STEAM_API_INTERFACES /D PROTECTED_THINGS_ENABLE /D strncpy=use_Q_strncpy_instead /D _snprintf=use_Q_snprintf_instead /D ENABLE_HTMLWINDOW /D fopen=dont_use_fopen /D SDK_CLIENT_DLL /D SDK_DLL /D SPLIT_SCREEN_STUBS /D GAMEUI_EMBEDDED /D GAMEUI_EXPORTS /D DEFERRED_DEV /D _WINDLL /D _MBCS /GF /Gm- /MT /GS- /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /GR /Yu"cbase.h" /Fp".\Release_swarm\client.pch" /Fo".\Release_swarm\\" /Fd".\Release_swarm\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt c_club_dj.cpp /MP 
+         c_club_dj.cpp
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\winbase.h(59): warning C4005: 'INVALID_HANDLE_VALUE' : macro redefinition
+                 C:\Users\AniCator\SparkleShare\Project-Potato\src\common\xbox/xboxstubs.h(112) : see previous definition of 'INVALID_HANDLE_VALUE'
          All outputs are up-to-date.
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Release_swarm\client.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\..\lib\ /LIBPATH:..\..\lib\common\. /LIBPATH:..\..\lib\public\. bass.lib bass_vst.lib winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc /NODEFAULTLIB:libcd /NODEFAULTLIB:libcmtd /MANIFEST:NO /DEBUG /PDB:".\Release_swarm\client.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /DLL .\Release_swarm\language.obj
@@ -657,4 +659,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:57.78
+Time Elapsed 00:02:14.20

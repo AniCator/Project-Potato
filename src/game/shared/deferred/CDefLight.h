@@ -32,6 +32,10 @@ public:
 	virtual void ClientThink();
 #endif
 
+	//custom cator code
+	//SetColor_Diffuse test
+	inline void SetColor_Diffuse(Vector input);
+
 	inline Vector GetColor_Diffuse();
 	inline Vector GetColor_Ambient();
 
@@ -101,6 +105,9 @@ private:
 	CNetworkVar( int, m_iCookieIndex );
 };
 
+void CDeferredLight::SetColor_Diffuse(Vector input){
+	m_vecColor_Diff = input;
+}
 
 Vector CDeferredLight::GetColor_Diffuse()
 {

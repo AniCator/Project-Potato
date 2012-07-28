@@ -81,9 +81,11 @@ CClubDJ::CClubDJ(){
 			Msg("BASS: Probably running listen server. Bass is already running and doesn't have to be re-initialized.\n");
 			bassInit=true;
 		}
+		else if(error==-1){
+			Error("Unable to initialize module required for DJ audio system.\nTry restarting the mod. This error usually doesn't occur twice in a row.\nError: %d\n");
+		}
 		else{
-			Msg("BASS Init failed, error code %d\n", error);
-			Error("BASS Init failed, error code %d\n", error);
+			Error("Unable to initialize module required for DJ audio system.\nTry restarting the mod.\nError: %d\n", error);
 		}
 	}
 	else{

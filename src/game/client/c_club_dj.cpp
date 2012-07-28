@@ -68,7 +68,7 @@ C_ClubDJ::C_ClubDJ(){
 		Msg("BASS module has been initialized...\n");
 		BASS_SetVolume(BASS_GetVolume());
 		HPLUGIN fxPlugin = BASS_PluginLoad("bass_fx.dll",0);
-		if(!fxPlugin){
+		if(fxPlugin==0){
 			int error = BASS_ErrorGetCode();
 			Error("Could not initialize BASS_FX: error %i",error);
 		}
@@ -114,10 +114,9 @@ void C_ClubDJ::ForceStop(){
 	if(bassInit){
 		BASS_ChannelStop(stream1);
 		BASS_ChannelRemoveFX(stream1,BASS_FX_BFX_LPF);
-		Msg("aaaaaaaand stream's stopped.\n");
 	}
 	else{
-		Msg("CoopCrowd Club's DJ is experiencing brain thingies!\n");
+		DevMsg("CoopCrowd Club's DJ is experiencing brain thingies!\n");
 	}
 }
 

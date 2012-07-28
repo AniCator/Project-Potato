@@ -61,7 +61,7 @@ C_ClubDJ::C_ClubDJ(){
 			Error("Unable to initialize module required for DJ audio system.\nTry restarting the mod. This error usually doesn't occur twice in a row.\nError: %d\n");
 		}
 		else{
-			Error("Unable to initialize module required for DJ audio system.\nTry restarting the mod.\nError: %d\n", error);
+			Error("Unable to initialize module required for DJ audio system.\nTry restarting the mod.\nError: %d\nIf shit still goes sick, contact AniCator.\n", error);
 		}
 	}
 	else{
@@ -70,7 +70,7 @@ C_ClubDJ::C_ClubDJ(){
 		HPLUGIN fxPlugin = BASS_PluginLoad("bass_fx.dll",0);
 		if(fxPlugin==0){
 			int error = BASS_ErrorGetCode();
-			Error("Could not initialize BASS_FX: error %i",error);
+			Warning("Could not initialize BASS_FX: error %i",error);
 		}
 	}
 }

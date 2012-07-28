@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 
-ConVar club_url("club_url", "http://78.159.104.149:80", FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
+ConVar club_url("club_url", "http://iku.streams.bassdrive.com:8000", FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
 
 class CClubDJ : public CBaseEntity
 {
@@ -21,6 +21,9 @@ public:
 	}
 
 	CClubDJ();
+
+	//TODO: Should be named Toggle
+	//Enables/disables stream
 	void ForcePlay(inputdata_t &inputData);
 
 	void Spawn();
@@ -30,20 +33,23 @@ public:
 	HSTREAM serverStream1;
 	HSTREAM serverStream2;
 
+	//Light pointers
 	CDeferredLight *lightMain;
 	CDeferredLight *lightBass;
 	CDeferredLight *lightHigh;
 	CDeferredLight *lightGreen;
 	CDeferredLight *lightYellow;
 
+	//Light strings (for keyfields)
 	char *lightMainStr;
 
+	//Old angles of lights for interpolation
 	QAngle oldAngYellow;
 	QAngle oldAngGreen;
  
-	//testvars
+	//Networked vars
 	CNetworkVar( bool, bDJEnabled );
-	CNetworkVar( float, bDJStream1Pos);
+	CNetworkVar( float, bDJStream1Pos); //unused atm
 };
  
 LINK_ENTITY_TO_CLASS( club_dj, CClubDJ );
@@ -56,6 +62,7 @@ END_SEND_TABLE()
 BEGIN_DATADESC( CClubDJ )
 	DEFINE_INPUTFUNC( FIELD_VOID, "ForcePlay", ForcePlay ),
 
+	//Get keyfield info from entity for lights (specified in Hammer)
 	DEFINE_KEYFIELD( lightMainStr, FIELD_STRING, "lightMain" ),
 	//DEFINE_KEYFIELD( lightBass, FIELD_STRING, "lightBass" ),
 	//DEFINE_KEYFIELD( lightHigh, FIELD_STRING, "lightHigh" ),
@@ -64,9 +71,11 @@ END_DATADESC()
 CClubDJ::CClubDJ(){
 	bDJEnabled = false;
 
+	//Initialize BASS module
 	bassInit = BASS_Init(-1, 44100, BASS_DEVICE_3D, 0, NULL);
 	if(!bassInit)
 	{
+		//Error handling
 		int error = BASS_ErrorGetCode();
 		if(error==BASS_ERROR_ALREADY){
 			Msg("BASS: Probably running listen server. Bass is already running and doesn't have to be re-initialized.\n");
@@ -82,6 +91,7 @@ CClubDJ::CClubDJ(){
 		BASS_SetVolume(BASS_GetVolume());
 	}
 
+	//Initialize old angles (might not be neccisary)
 	oldAngYellow = QAngle(-90,0,0);
 	oldAngGreen = QAngle(-90,0,0);
 }
@@ -89,12 +99,14 @@ CClubDJ::CClubDJ(){
 void CClubDJ::Spawn(){
 	BaseClass::Spawn();
 
+	//Link up lights for lightshow usage
 	lightMain = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light1"));
 	lightBass = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light2"));
 	lightHigh = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light3"));
 	lightGreen = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light4"));
 	lightYellow = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light5"));
 
+	//Test check
 	if(lightMain!=NULL){
 		Msg("Found Main Light for club_dj.\n");
 	}
@@ -102,6 +114,7 @@ void CClubDJ::Spawn(){
 		Warning("Could not find Main Light for club_dj!");
 	}
 
+	//Moar test checkz but for the keyfield string instead here
 	if(lightMainStr!=NULL){
 		Msg("YEAH! %s\n",lightMainStr);
 	}
@@ -109,20 +122,18 @@ void CClubDJ::Spawn(){
 		Msg("SHIT!\n");
 	}
 
+	//Start thinking
 	SetNextThink( gpGlobals->curtime);
 }
 
 void CClubDJ::ForcePlay(inputdata_t &inputData){
-	//put stuff here
-	Msg("executing forceplay lol\n");
 	if(bDJEnabled){
 		bDJEnabled=false;
 		if(bassInit){
 			BASS_ChannelStop(serverStream1);
-			Msg("aaaaaaaand stream's stopped.\n");
 		}
 		else{
-			Msg("CoopCrowd Club's DJ is experiencing brain thingies!\n");
+			DevMsg("CoopCrowd Club's DJ is experiencing brain thingies!\n");
 		}
 	}
 	else{
@@ -131,10 +142,6 @@ void CClubDJ::ForcePlay(inputdata_t &inputData){
 			//Create new stream (or refresh)
 			ConVarRef url = ConVarRef("club_url");
 			serverStream1=BASS_StreamCreateURL(url.GetString(), 0, 0, NULL, 0);
-			if(serverStream1==NULL){
-				//Create new stream
-				serverStream1=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, 0, NULL, 0);
-			}
 			//Play stream
 			BASS_ChannelPlay(serverStream1,true);
 			BASS_ChannelSetAttribute(serverStream1,BASS_ATTRIB_VOL,0.0f);
@@ -165,9 +172,11 @@ float FFTAverage(float fft[],int index,int range){
 void CClubDJ::Think(){
 	BaseClass::Think();
 	
+	//Check if stream 1 is not NULL
 	if(serverStream1!=NULL){
 		float fft[512]; // fft data buffer
 		BASS_ChannelGetData(serverStream1, fft, BASS_DATA_FFT1024);
+		//Check if lights are not NULL and apply lightshow data
 		if(lightMain!=NULL){
 			std::string diff = "255 0 0 ";
 			std::stringstream ss;
@@ -214,19 +223,6 @@ void CClubDJ::Think(){
 			aLocal = (aLocal*0.2)+(oldAngYellow*0.8);
 			lightYellow->SetLocalAngles(aLocal);
 			lightYellow->SetAbsAngles(oldAngYellow);
-			oldAngYellow=aLocal;
-			std::string diff = "0 255 0 ";
-			std::stringstream ss;
-			ss<<FFTAverage(fft,300,10)*200000;
-			diff.append(ss.str());
-			lightGreen->SetColor_Diffuse(stringColToVec(diff.c_str()));
-		}
-		if(lightYellow!=NULL){
-			std::string diff = "255 255 0 ";
-			std::stringstream ss;
-			ss<<FFTAverage(fft,400,10)*200000;
-			diff.append(ss.str());
-			lightYellow->SetColor_Diffuse(stringColToVec(diff.c_str()));
 		}
 	}
 

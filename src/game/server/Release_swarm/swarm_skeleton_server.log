@@ -1,7 +1,7 @@
-﻿Build started 7/28/2012 01:59:28.
+﻿Build started 7/28/2012 14:02:12.
      1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\server\swarm_skeleton_server.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
-         Creating ".\Release_swarm\server.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching ".\Release_swarm\server.unsuccessfulbuild".
        ClCompile:
          All outputs are up-to-date.
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\lib /I..\..\common /I..\..\public /I..\..\public\tier0 /I..\..\public\tier1 /I.\ /I..\..\game\shared /I..\..\utils\common /I..\..\game\server\NextBot /I.\Release_swarm\ /I.\hl2 /I..\..\game\shared\hl2 /I.\sdk /I..\..\game\shared\sdk /Zi /nologo /W4 /WX- /O2 /Ob2 /Oi /Ot /Oy- /D WIN32 /D _WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D DLLNAME=server /D VPCGAME=swarm /D VPCGAMECAPS=SWARM /D _DLL_EXT=.dll /D COMPILER_MSVC32 /D COMPILER_MSVC /D MEMOVERRIDE_MODULE=server /D GAME_DLL /D VECTOR /D VERSION_SAFE_STEAM_API_INTERFACES /D PROTECTED_THINGS_ENABLE /D sprintf=use_Q_snprintf_instead_of_sprintf /D strncpy=use_Q_strncpy_instead /D _snprintf=use_Q_snprintf_instead /D SDK_SERVER_DLL /D SDK_DLL /D _WINDLL /D _MBCS /GF /Gm- /MT /GS- /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /GR /Yu"cbase.h" /Fp".\Release_swarm\server.pch" /Fo".\Release_swarm\\" /Fd".\Release_swarm\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt club_dj.cpp /MP 
@@ -540,4 +540,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:01:08.57
+Time Elapsed 00:00:48.71

@@ -3,6 +3,8 @@
 #include "bass.h"
 #include "bass_fx.h"
 
+ConVar club_url("club_url", "http://iku.streams.bassdrive.com:8000", FCVAR_CHEAT | FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
+
 class C_ClubDJ : public C_BaseEntity
 {
 public:
@@ -92,11 +94,6 @@ void C_ClubDJ::ForcePlay(){
 		ConVarRef url = ConVarRef("club_url");
 		stream1=BASS_StreamCreateURL(url.GetString(), 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
 		BASS_ChannelSetFX(stream1,BASS_FX_BFX_LPF,0);
-		if(stream1==NULL){
-			//Create new stream
-			stream1=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
-			//DWORD dsp = BASS_VST_ChannelSetDSP(stream1,"ClassicReverb.dll",0,0);
-		}
 		//Play stream
 		BASS_ChannelPlay(stream1,true);
 		BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1.0f);
@@ -177,14 +174,13 @@ void OnChangeDistFactor( IConVar *var, const char *pOldValue, float flOldValue )
 	dist = ConVarRef("club_distf");
 }
 
+//ConVars
 ConVar club_distf("club_distf", "0.4", FCVAR_CHEAT, "BASS - Audible distance factor", OnChangeDistFactor);
 ConVar club_roll("club_roll", "2", FCVAR_CHEAT, "BASS - Rollof factor", OnChangeRolloff);
 ConVar club_doppler("club_doppler", "0.01", FCVAR_CHEAT, "BASS - Doppler factor", OnChangeDoppler);
 
 ConVar club_maxdist("club_maxdist", "5000", FCVAR_CHEAT, "BASS - Maximum audible distance", OnChangeMaxDist);
 ConVar club_mindist("club_mindist", "500", FCVAR_CHEAT, "BASS - Minimum audible distance", OnChangeMinDist);
-
-ConVar club_url("club_url", "http://78.159.104.149:80", FCVAR_CHEAT | FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
 
 void C_ClubDJ::ClientThink(){
 	BaseClass::ClientThink();

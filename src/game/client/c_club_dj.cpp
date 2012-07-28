@@ -26,7 +26,7 @@ public:
 	HSTREAM stream1;
 	HSTREAM stream2;
 
-	DWORD dsp;
+	HFX dsp;
 
 	//testvars
 	CNetworkVar( bool, bDJEnabled );
@@ -93,7 +93,7 @@ void C_ClubDJ::ForcePlay(){
 		//Create new stream
 		ConVarRef url = ConVarRef("club_url");
 		stream1=BASS_StreamCreateURL(url.GetString(), 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
-		BASS_ChannelSetFX(stream1,BASS_FX_BFX_LPF,0);
+		dsp = BASS_ChannelSetFX(stream1,BASS_FX_BFX_LPF,0);
 		//Play stream
 		BASS_ChannelPlay(stream1,true);
 		BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1.0f);
@@ -223,7 +223,7 @@ void C_ClubDJ::ClientThink(){
 		BASS_BFX_LPF *fx = new BASS_BFX_LPF();
 		fx->fCutOffFreq = 200.0f;
 		fx->fResonance = 5.0f;
-		BASS_FXSetParameters(stream1,fx);
+		BASS_FXSetParameters(dsp,fx);
 		delete fx;
 
 		//Apply 3D data changes

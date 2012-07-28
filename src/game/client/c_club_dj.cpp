@@ -88,18 +88,15 @@ C_ClubDJ::~C_ClubDJ(){
 void C_ClubDJ::ForcePlay(){
 	//put stuff here
 	if(bassInit){
-<<<<<<< HEAD
 		//Create new stream
 		ConVarRef url = ConVarRef("club_url");
 		stream1=BASS_StreamCreateURL(url.GetString(), 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
 		BASS_ChannelSetFX(stream1,BASS_FX_BFX_LPF,0);
-=======
 		if(stream1==NULL){
 			//Create new stream
 			stream1=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
 			//DWORD dsp = BASS_VST_ChannelSetDSP(stream1,"ClassicReverb.dll",0,0);
 		}
->>>>>>> 7e62ab808e71ac6be9a007b5b3b210b03b64bc8d
 		//Play stream
 		BASS_ChannelPlay(stream1,true);
 		BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1.0f);

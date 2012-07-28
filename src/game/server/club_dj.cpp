@@ -35,8 +35,11 @@ public:
 	CDeferredLight *lightHigh;
 	CDeferredLight *lightGreen;
 	CDeferredLight *lightYellow;
+<<<<<<< HEAD
 
 	char *lightMainStr;
+=======
+>>>>>>> 7e62ab808e71ac6be9a007b5b3b210b03b64bc8d
 
 	QAngle oldAngYellow;
 	QAngle oldAngGreen;
@@ -128,9 +131,16 @@ void CClubDJ::ForcePlay(inputdata_t &inputData){
 	else{
 		bDJEnabled=true;
 		if(bassInit){
+<<<<<<< HEAD
 			//Create new stream (or refresh)
 			ConVarRef url = ConVarRef("club_url");
 			serverStream1=BASS_StreamCreateURL(url.GetString(), 0, 0, NULL, 0);
+=======
+			if(serverStream1==NULL){
+				//Create new stream
+				serverStream1=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, 0, NULL, 0);
+			}
+>>>>>>> 7e62ab808e71ac6be9a007b5b3b210b03b64bc8d
 			//Play stream
 			BASS_ChannelPlay(serverStream1,true);
 			BASS_ChannelSetAttribute(serverStream1,BASS_ATTRIB_VOL,0.0f);
@@ -174,7 +184,11 @@ void CClubDJ::Think(){
 		if(lightBass!=NULL){
 			std::string diff = "0 0 255 ";
 			std::stringstream ss;
+<<<<<<< HEAD
 			ss<<FFTAverage(fft,4,10)*10000;
+=======
+			ss<<FFTAverage(fft,5,10)*5000;
+>>>>>>> 7e62ab808e71ac6be9a007b5b3b210b03b64bc8d
 			diff.append(ss.str());
 			lightBass->SetColor_Diffuse(stringColToVec(diff.c_str()));
 		}
@@ -186,6 +200,7 @@ void CClubDJ::Think(){
 			lightHigh->SetColor_Diffuse(stringColToVec(diff.c_str()));
 		}
 		if(lightGreen!=NULL){
+<<<<<<< HEAD
 			float avg = FFTAverage(fft,300,10);
 			std::string diff = "0 255 0 ";
 			std::stringstream ss;
@@ -210,6 +225,20 @@ void CClubDJ::Think(){
 			lightYellow->SetLocalAngles(aLocal);
 			lightYellow->SetAbsAngles(oldAngYellow);
 			oldAngYellow=aLocal;
+=======
+			std::string diff = "0 255 0 ";
+			std::stringstream ss;
+			ss<<FFTAverage(fft,300,10)*200000;
+			diff.append(ss.str());
+			lightGreen->SetColor_Diffuse(stringColToVec(diff.c_str()));
+		}
+		if(lightYellow!=NULL){
+			std::string diff = "255 255 0 ";
+			std::stringstream ss;
+			ss<<FFTAverage(fft,400,10)*200000;
+			diff.append(ss.str());
+			lightYellow->SetColor_Diffuse(stringColToVec(diff.c_str()));
+>>>>>>> 7e62ab808e71ac6be9a007b5b3b210b03b64bc8d
 		}
 	}
 

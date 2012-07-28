@@ -93,11 +93,21 @@ void C_ClubDJ::ForcePlay(){
 		//Create new stream
 		ConVarRef url = ConVarRef("club_url");
 		stream1=BASS_StreamCreateURL(url.GetString(), 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
-		dsp = BASS_ChannelSetFX(stream1,BASS_FX_BFX_LPF,0);
+		if(BASS_FX_GetVersion()==BASSVERSION){
+			dsp = BASS_ChannelSetFX(stream1,BASS_FX_BFX_LPF,0);
+			if(!dsp){
+				int error = BASS_ErrorGetCode();
+				DevMsg("Could not set FX on channel. Error: %i\n",error);
+			}
+		}
+		else{
+			DevMsg("Incorrect BASS_FX version loaded.\n");
+			DevMsg("BASS version: %h\n",BASSVERSION);
+			DevMsg("BASS_FX version: %h\n", BASS_FX_GetVersion());
+		}
 		//Play stream
 		BASS_ChannelPlay(stream1,true);
 		BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1.0f);
-		Msg("CoopCrowd Club is Live!\n");
 	}
 	else{
 		Msg("CoopCrowd Club's DJ is experiencing brain thingies!\n");
@@ -113,7 +123,7 @@ void C_ClubDJ::ForceStop(){
 	//put stuff here
 	if(bassInit){
 		BASS_ChannelStop(stream1);
-		BASS_ChannelRemoveFX(stream1,BASS_FX_BFX_LPF);
+		BASS_ChannelRemoveFX(dsp,BASS_FX_BFX_LPF);
 	}
 	else{
 		DevMsg("CoopCrowd Club's DJ is experiencing brain thingies!\n");

@@ -39,6 +39,13 @@ public:
 	CDeferredLight *lightHigh;
 	CDeferredLight *lightGreen;
 	CDeferredLight *lightYellow;
+	
+	//Old light colours (for interpolation)
+	std::string oldLightMain;
+	std::string oldLightBass;
+	std::string oldLightHigh;
+	std::string oldLightGreen;
+	std::string oldLightYellow;
 
 	//Light strings (for keyfields)
 	char *lightMainStr;
@@ -147,7 +154,6 @@ void CClubDJ::ForcePlay(inputdata_t &inputData){
 			//Play stream
 			BASS_ChannelPlay(serverStream1,true);
 			BASS_ChannelSetAttribute(serverStream1,BASS_ATTRIB_VOL,0.0f);
-			Msg("CoopCrowd Club is Live!\n");
 		}
 		else{
 			Msg("CoopCrowd Club's DJ is experiencing brain thingies!\n");
@@ -176,55 +182,62 @@ void CClubDJ::Think(){
 	
 	//Check if stream 1 is not NULL
 	if(serverStream1!=NULL){
-		float fft[512]; // fft data buffer
-		BASS_ChannelGetData(serverStream1, fft, BASS_DATA_FFT1024);
-		//Check if lights are not NULL and apply lightshow data
-		if(lightMain!=NULL){
-			std::string diff = "255 0 0 ";
-			std::stringstream ss;
-			ss<<FFTAverage(fft,24,10)*20000;
-			diff.append(ss.str());
-			lightMain->SetColor_Diffuse(stringColToVec(diff.c_str()));
-		}
-		if(lightBass!=NULL){
-			std::string diff = "0 0 255 ";
-			std::stringstream ss;
-			ss<<FFTAverage(fft,4,10)*10000;
-			ss<<FFTAverage(fft,5,10)*5000;
-			diff.append(ss.str());
-			lightBass->SetColor_Diffuse(stringColToVec(diff.c_str()));
-		}
-		if(lightHigh!=NULL){
-			std::string diff = "255 255 255 ";
-			std::stringstream ss;
-			ss<<FFTAverage(fft,100,10)*200000;
-			diff.append(ss.str());
-			lightHigh->SetColor_Diffuse(stringColToVec(diff.c_str()));
-		}
-		if(lightGreen!=NULL){
-			float avg = FFTAverage(fft,300,10);
-			std::string diff = "0 255 0 ";
-			std::stringstream ss;
-			ss<<avg*200000;
-			diff.append(ss.str());
-			lightGreen->SetColor_Diffuse(stringColToVec(diff.c_str()));
-			QAngle aLocal = QAngle(sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000);
-			aLocal = (aLocal*0.2)+(oldAngGreen*0.8);
-			lightGreen->SetLocalAngles(aLocal);
-			lightGreen->SetAbsAngles(oldAngGreen);
-			oldAngGreen=aLocal;
-		}
-		if(lightYellow!=NULL){
-			float avg = FFTAverage(fft,200,10);
-			std::string diff = "255 255 0 ";
-			std::stringstream ss;
-			ss<<avg*200000;
-			diff.append(ss.str());
-			lightYellow->SetColor_Diffuse(stringColToVec(diff.c_str()));
-			QAngle aLocal = QAngle(sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000);
-			aLocal = (aLocal*0.2)+(oldAngYellow*0.8);
-			lightYellow->SetLocalAngles(aLocal);
-			lightYellow->SetAbsAngles(oldAngYellow);
+		if(BASS_ChannelIsActive(serverStream1)==BASS_ACTIVE_PLAYING){
+			float fft[512]; // fft data buffer
+			BASS_ChannelGetData(serverStream1, fft, BASS_DATA_FFT1024);
+			//Check if lights are not NULL and apply lightshow data
+			if(lightMain!=NULL){
+				std::string diff = "255 0 0 ";
+				std::stringstream ss;
+				ss<<FFTAverage(fft,24,10)*20000;
+				diff.append(ss.str());
+				lightMain->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				oldLightMain = diff;
+			}
+			if(lightBass!=NULL){
+				std::string diff = "0 0 255 ";
+				std::stringstream ss;
+				ss<<FFTAverage(fft,4,10)*10000;
+				ss<<FFTAverage(fft,5,10)*5000;
+				diff.append(ss.str());
+				lightBass->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				oldLightBass = diff;
+			}
+			if(lightHigh!=NULL){
+				std::string diff = "255 255 255 ";
+				std::stringstream ss;
+				ss<<FFTAverage(fft,100,10)*200000;
+				diff.append(ss.str());
+				lightHigh->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				oldLightHigh = diff;
+			}
+			if(lightGreen!=NULL){
+				float avg = FFTAverage(fft,300,10);
+				std::string diff = "0 255 0 ";
+				std::stringstream ss;
+				ss<<avg*200000;
+				diff.append(ss.str());
+				lightGreen->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				oldLightGreen = diff;
+				QAngle aLocal = QAngle(sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000);
+				aLocal = (aLocal*0.2)+(oldAngGreen*0.8);
+				lightGreen->SetLocalAngles(aLocal);
+				lightGreen->SetAbsAngles(oldAngGreen);
+				oldAngGreen=aLocal;
+			}
+			if(lightYellow!=NULL){
+				float avg = FFTAverage(fft,200,10);
+				std::string diff = "255 255 0 ";
+				std::stringstream ss;
+				ss<<avg*200000;
+				diff.append(ss.str());
+				lightYellow->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				oldLightYellow = diff;
+				QAngle aLocal = QAngle(sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000);
+				aLocal = (aLocal*0.2)+(oldAngYellow*0.8);
+				lightYellow->SetLocalAngles(aLocal);
+				lightYellow->SetAbsAngles(oldAngYellow);
+			}
 		}
 	}
 

@@ -1,14 +1,7 @@
 #include "cbase.h"
 #include "mathlib\mathlib.h"
 #include "bass.h"
-#include "bass_vst.h"
-
-ConVar club_distf("club_distf", "0.4", FCVAR_CHEAT, "BASS - Audible distance factor" );
-ConVar club_roll("club_roll", "2", FCVAR_CHEAT, "BASS - Rollof factor" );
-ConVar club_doppler("club_doppler", "0.01", FCVAR_CHEAT, "BASS - Doppler factor" );
-
-ConVar club_maxdist("club_maxdist", "5000", FCVAR_CHEAT, "BASS - Maximum audible distance" );
-ConVar club_mindist("club_mindist", "500", FCVAR_CHEAT, "BASS - Minimum audible distance" );
+#include "bass_fx.h"
 
 class C_ClubDJ : public C_BaseEntity
 {
@@ -30,6 +23,8 @@ public:
 	HWND hWndPotato;
 	HSTREAM stream1;
 	HSTREAM stream2;
+
+	DWORD dsp;
 
 	//testvars
 	CNetworkVar( bool, bDJEnabled );
@@ -60,14 +55,21 @@ C_ClubDJ::C_ClubDJ(){
 			Msg("BASS: Probably running listen server. Bass is already running and doesn't have to be re-initialized.\n");
 			bassInit=true;
 		}
+		else if(error==-1){
+			Error("Unable to initialize module required for DJ audio system.\nTry restarting the mod. This error usually doesn't occur twice in a row.\nError: %d\n");
+		}
 		else{
-			Msg("BASS Init failed, error code %d\n", error);
-			Error("BASS Init failed, error code %d\n", error);
+			Error("Unable to initialize module required for DJ audio system.\nTry restarting the mod.\nError: %d\n", error);
 		}
 	}
 	else{
 		Msg("BASS module has been initialized...\n");
 		BASS_SetVolume(BASS_GetVolume());
+		HPLUGIN fxPlugin = BASS_PluginLoad("bass_fx.dll",0);
+		if(!fxPlugin){
+			int error = BASS_ErrorGetCode();
+			Error("Could not initialize BASS_FX: error %i",error);
+		}
 	}
 }
 
@@ -86,11 +88,10 @@ C_ClubDJ::~C_ClubDJ(){
 void C_ClubDJ::ForcePlay(){
 	//put stuff here
 	if(bassInit){
-		if(stream1==NULL){
-			//Create new stream
-			stream1=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
-			//DWORD dsp = BASS_VST_ChannelSetDSP(stream1,"ClassicReverb.dll",0,0);
-		}
+		//Create new stream
+		ConVarRef url = ConVarRef("club_url");
+		stream1=BASS_StreamCreateURL(url.GetString(), 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
+		BASS_ChannelSetFX(stream1,BASS_FX_BFX_LPF,0);
 		//Play stream
 		BASS_ChannelPlay(stream1,true);
 		BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1.0f);
@@ -110,6 +111,7 @@ void C_ClubDJ::ForceStop(){
 	//put stuff here
 	if(bassInit){
 		BASS_ChannelStop(stream1);
+		BASS_ChannelRemoveFX(stream1,BASS_FX_BFX_LPF);
 		Msg("aaaaaaaand stream's stopped.\n");
 	}
 	else{
@@ -146,6 +148,39 @@ BASS_3DVECTOR *Get3DVect(const Vector vect)
         return vec;
 }
 
+ConVarRef mindist = ConVarRef("club_mindist");
+ConVarRef maxdist = ConVarRef("club_maxdist");
+ConVarRef doppl = ConVarRef("club_doppler");
+ConVarRef roll = ConVarRef("club_roll");
+ConVarRef dist = ConVarRef("club_distf");
+
+static void OnChangeMinDist( IConVar *var, const char *pOldValue, float flOldValue ){
+	mindist = ConVarRef("club_mindist");
+}
+
+void OnChangeMaxDist( IConVar *var, const char *pOldValue, float flOldValue ){
+	maxdist = ConVarRef("club_maxdist");
+}
+
+void OnChangeDoppler( IConVar *var, const char *pOldValue, float flOldValue ){
+	doppl = ConVarRef("club_doppler");
+}
+void OnChangeRolloff( IConVar *var, const char *pOldValue, float flOldValue ){
+	roll = ConVarRef("club_roll");
+}
+void OnChangeDistFactor( IConVar *var, const char *pOldValue, float flOldValue ){
+	dist = ConVarRef("club_distf");
+}
+
+ConVar club_distf("club_distf", "0.4", FCVAR_CHEAT, "BASS - Audible distance factor", OnChangeDistFactor);
+ConVar club_roll("club_roll", "2", FCVAR_CHEAT, "BASS - Rollof factor", OnChangeRolloff);
+ConVar club_doppler("club_doppler", "0.01", FCVAR_CHEAT, "BASS - Doppler factor", OnChangeDoppler);
+
+ConVar club_maxdist("club_maxdist", "5000", FCVAR_CHEAT, "BASS - Maximum audible distance", OnChangeMaxDist);
+ConVar club_mindist("club_mindist", "500", FCVAR_CHEAT, "BASS - Minimum audible distance", OnChangeMinDist);
+
+ConVar club_url("club_url", "http://78.159.104.149:80", FCVAR_CHEAT | FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
+
 void C_ClubDJ::ClientThink(){
 	BaseClass::ClientThink();
 	if(stream1!=NULL){
@@ -160,9 +195,6 @@ void C_ClubDJ::ClientThink(){
 		BASS_3DVECTOR *playerTop = Get3DVect(up);
 
 		//Set 3D Factors and player position
-		ConVarRef dist = ConVarRef("club_distf");
-		ConVarRef roll = ConVarRef("club_roll");
-		ConVarRef doppl = ConVarRef("club_doppler");
 		BASS_Set3DFactors(dist.GetFloat(), roll.GetFloat(), doppl.GetFloat());
 		BASS_Set3DPosition(playerPos,playerVel,playerFront,playerTop);
 
@@ -172,8 +204,6 @@ void C_ClubDJ::ClientThink(){
         BASS_3DVECTOR *vel = Get3DVect(GetAbsVelocity());
 		
 		//Set club_dj position on BASS interface
-		ConVarRef mindist = ConVarRef("club_mindist");
-		ConVarRef maxdist = ConVarRef("club_maxdist");
         BASS_ChannelSet3DAttributes(stream1, BASS_3DMODE_NORMAL, mindist.GetFloat(), maxdist.GetFloat(), 360, 360, 0);
         BASS_ChannelSet3DPosition(stream1, pos, orient, vel);
 		
@@ -188,6 +218,13 @@ void C_ClubDJ::ClientThink(){
 		else{
 			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1.0);
 		}
+
+		//Apply effects
+		BASS_BFX_LPF *fx = new BASS_BFX_LPF();
+		fx->fCutOffFreq = 200.0f;
+		fx->fResonance = 5.0f;
+		BASS_FXSetParameters(stream1,fx);
+		delete fx;
 
 		//Apply 3D data changes
 		BASS_Apply3D();

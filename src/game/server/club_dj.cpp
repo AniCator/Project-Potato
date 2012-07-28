@@ -1,9 +1,12 @@
 #include "cbase.h"
 #include "deferred\CDefLight.h"
 #include "deferred\deferred_shared_common.h"
+#include "mathlib\mathlib.h"
 #include "bass.h"
 #include <string>
 #include <sstream>
+
+ConVar club_url("club_url", "http://78.159.104.149:80", FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
 
 class CClubDJ : public CBaseEntity
 {
@@ -33,9 +36,10 @@ public:
 	CDeferredLight *lightGreen;
 	CDeferredLight *lightYellow;
 
-	float oldMain;
-	float oldBass;
-	float oldHigh;
+	char *lightMainStr;
+
+	QAngle oldAngYellow;
+	QAngle oldAngGreen;
  
 	//testvars
 	CNetworkVar( bool, bDJEnabled );
@@ -52,9 +56,9 @@ END_SEND_TABLE()
 BEGIN_DATADESC( CClubDJ )
 	DEFINE_INPUTFUNC( FIELD_VOID, "ForcePlay", ForcePlay ),
 
-	//DEFINE_KEYFIELD( lightMain, FIELD_EHANDLE, "lightMain" ),
-	//DEFINE_KEYFIELD( lightBass, FIELD_EHANDLE, "lightBass" ),
-	//DEFINE_KEYFIELD( lightHigh, FIELD_EHANDLE, "lightHigh" ),
+	DEFINE_KEYFIELD( lightMainStr, FIELD_STRING, "lightMain" ),
+	//DEFINE_KEYFIELD( lightBass, FIELD_STRING, "lightBass" ),
+	//DEFINE_KEYFIELD( lightHigh, FIELD_STRING, "lightHigh" ),
 END_DATADESC()
 
 CClubDJ::CClubDJ(){
@@ -77,6 +81,9 @@ CClubDJ::CClubDJ(){
 		Msg("BASS module has been initialized...\n");
 		BASS_SetVolume(BASS_GetVolume());
 	}
+
+	oldAngYellow = QAngle(-90,0,0);
+	oldAngGreen = QAngle(-90,0,0);
 }
 
 void CClubDJ::Spawn(){
@@ -93,6 +100,13 @@ void CClubDJ::Spawn(){
 	}
 	else{
 		Warning("Could not find Main Light for club_dj!");
+	}
+
+	if(lightMainStr!=NULL){
+		Msg("YEAH! %s\n",lightMainStr);
+	}
+	else{
+		Msg("SHIT!\n");
 	}
 
 	SetNextThink( gpGlobals->curtime);
@@ -114,10 +128,9 @@ void CClubDJ::ForcePlay(inputdata_t &inputData){
 	else{
 		bDJEnabled=true;
 		if(bassInit){
-			if(serverStream1==NULL){
-				//Create new stream
-				serverStream1=BASS_StreamCreateURL("http://iku.streams.bassdrive.com:8000", 0, 0, NULL, 0);
-			}
+			//Create new stream (or refresh)
+			ConVarRef url = ConVarRef("club_url");
+			serverStream1=BASS_StreamCreateURL(url.GetString(), 0, 0, NULL, 0);
 			//Play stream
 			BASS_ChannelPlay(serverStream1,true);
 			BASS_ChannelSetAttribute(serverStream1,BASS_ATTRIB_VOL,0.0f);
@@ -154,14 +167,14 @@ void CClubDJ::Think(){
 		if(lightMain!=NULL){
 			std::string diff = "255 0 0 ";
 			std::stringstream ss;
-			ss<<FFTAverage(fft,25,10)*10000;
+			ss<<FFTAverage(fft,24,10)*20000;
 			diff.append(ss.str());
 			lightMain->SetColor_Diffuse(stringColToVec(diff.c_str()));
 		}
 		if(lightBass!=NULL){
 			std::string diff = "0 0 255 ";
 			std::stringstream ss;
-			ss<<FFTAverage(fft,5,10)*5000;
+			ss<<FFTAverage(fft,4,10)*10000;
 			diff.append(ss.str());
 			lightBass->SetColor_Diffuse(stringColToVec(diff.c_str()));
 		}
@@ -173,18 +186,30 @@ void CClubDJ::Think(){
 			lightHigh->SetColor_Diffuse(stringColToVec(diff.c_str()));
 		}
 		if(lightGreen!=NULL){
+			float avg = FFTAverage(fft,300,10);
 			std::string diff = "0 255 0 ";
 			std::stringstream ss;
-			ss<<FFTAverage(fft,300,10)*200000;
+			ss<<avg*200000;
 			diff.append(ss.str());
 			lightGreen->SetColor_Diffuse(stringColToVec(diff.c_str()));
+			QAngle aLocal = QAngle(sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000);
+			aLocal = (aLocal*0.2)+(oldAngGreen*0.8);
+			lightGreen->SetLocalAngles(aLocal);
+			lightGreen->SetAbsAngles(oldAngGreen);
+			oldAngGreen=aLocal;
 		}
 		if(lightYellow!=NULL){
+			float avg = FFTAverage(fft,200,10);
 			std::string diff = "255 255 0 ";
 			std::stringstream ss;
-			ss<<FFTAverage(fft,400,10)*200000;
+			ss<<avg*200000;
 			diff.append(ss.str());
 			lightYellow->SetColor_Diffuse(stringColToVec(diff.c_str()));
+			QAngle aLocal = QAngle(sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000);
+			aLocal = (aLocal*0.2)+(oldAngYellow*0.8);
+			lightYellow->SetLocalAngles(aLocal);
+			lightYellow->SetAbsAngles(oldAngYellow);
+			oldAngYellow=aLocal;
 		}
 	}
 

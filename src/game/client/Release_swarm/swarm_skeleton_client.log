@@ -1,4 +1,4 @@
-﻿Build started 7/27/2012 18:58:33.
+﻿Build started 7/28/2012 13:31:48.
      1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\client\swarm_skeleton_client.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Release_swarm\client.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -11,7 +11,7 @@
                  C:\Users\AniCator\SparkleShare\Project-Potato\src\common\xbox/xboxstubs.h(112) : see previous definition of 'INVALID_HANDLE_VALUE'
          All outputs are up-to-date.
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Release_swarm\client.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\..\lib\ /LIBPATH:..\..\lib\common\. /LIBPATH:..\..\lib\public\. bass.lib bass_vst.lib winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc /NODEFAULTLIB:libcd /NODEFAULTLIB:libcmtd /MANIFEST:NO /DEBUG /PDB:".\Release_swarm\client.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /DLL .\Release_swarm\language.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Release_swarm\client.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\..\lib\ /LIBPATH:..\..\lib\common\. /LIBPATH:..\..\lib\public\. bass.lib bass_fx.lib winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc /NODEFAULTLIB:libcd /NODEFAULTLIB:libcmtd /MANIFEST:NO /DEBUG /PDB:".\Release_swarm\client.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /DLL .\Release_swarm\language.obj
          .\Release_swarm\CDefLight.obj
          .\Release_swarm\CDefLightContainer.obj
          .\Release_swarm\CDefLightGlobal.obj
@@ -659,4 +659,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:32.43
+Time Elapsed 00:00:39.53

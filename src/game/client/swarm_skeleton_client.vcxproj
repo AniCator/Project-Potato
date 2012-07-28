@@ -178,7 +178,7 @@ if exist "$(TargetDir)"$(ProjectName).pdb copy "$(TargetDir)"$(ProjectName).pdb 
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>bass.lib;bass_vst.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>bass.lib;bass_fx.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(OutDir)client.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>

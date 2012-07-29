@@ -1,4 +1,4 @@
-﻿Build started 7/29/2012 18:12:43.
+﻿Build started 7/29/2012 20:16:04.
      1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\game\server\swarm_skeleton_server.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Release_swarm\server.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -27,4 +27,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.53
+Time Elapsed 00:00:05.00

@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "5032"
-	"mapversion" "36"
+	"mapversion" "38"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -20,7 +20,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "36"
+	"mapversion" "38"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -1698,8 +1698,10 @@ entity
 	"id" "40"
 	"classname" "club_dj"
 	"lightBass" "light1"
+	"lightGreen" "light4"
 	"lightHigh" "light3"
 	"lightMain" "light2"
+	"lightYellow" "light5"
 	"origin" "160 0 128"
 	"targetname" "dj"
 	editor
@@ -2034,6 +2036,7 @@ entity
 {
 	"id" "1120"
 	"classname" "club_bar"
+	"origin" "328 0 72"
 	"targetname" "bar"
 	solid
 	{
@@ -2106,14 +2109,14 @@ entity
 		}
 		editor
 		{
-			"color" "0 180 0"
+			"color" "220 30 220"
 			"visgroupshown" "1"
 			"visgroupautoshown" "1"
 		}
 	}
 	editor
 	{
-		"color" "0 180 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1000]"
@@ -2124,8 +2127,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[175.436 -145.229 117.648]"
-		"look" "[231.685 -78.1209 108.672]"
+		"position" "[230.967 124.137 124.443]"
+		"look" "[171.055 61.155 110.593]"
 	}
 }
 cordons

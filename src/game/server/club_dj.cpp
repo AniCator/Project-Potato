@@ -33,26 +33,19 @@ public:
 	HSTREAM serverStream1;
 	HSTREAM serverStream2;
 
-	//Light pointers
-	CDeferredLight *lightMain;
-	CDeferredLight *lightBass;
-	CDeferredLight *lightHigh;
-	CDeferredLight *lightGreen;
-	CDeferredLight *lightYellow;
-	
-	//Old light colours (for interpolation)
-	std::string oldLightMain;
-	std::string oldLightBass;
-	std::string oldLightHigh;
-	std::string oldLightGreen;
-	std::string oldLightYellow;
+	//Light EHANDLEs
+	CNetworkVar( CDeferredLight *, eLightMain);
+	CNetworkVar( CDeferredLight *, eLightBass);
+	CNetworkVar( CDeferredLight *, eLightHigh);
+	CNetworkVar( CDeferredLight *, eLightGreen);
+	CNetworkVar( CDeferredLight *, eLightYellow);
 
 	//Light strings (for keyfields)
 	char *lightMainStr;
-
-	//Old angles of lights for interpolation
-	QAngle oldAngYellow;
-	QAngle oldAngGreen;
+	char *lightBassStr;
+	char *lightHighStr;
+	char *lightGreenStr;
+	char *lightYellowStr;
  
 	//Networked vars
 	CNetworkVar( bool, bDJEnabled );
@@ -64,6 +57,11 @@ LINK_ENTITY_TO_CLASS( club_dj, CClubDJ );
 IMPLEMENT_SERVERCLASS_ST( CClubDJ, DT_ClubDJ )
 	SendPropInt(SENDINFO(bDJEnabled), 0, SPROP_UNSIGNED ),
 	SendPropFloat(SENDINFO(bDJStream1Pos), 0, SPROP_NOSCALE ),
+	SendPropEHandle(SENDINFO(eLightMain)),
+	SendPropEHandle(SENDINFO(eLightBass)),
+	SendPropEHandle(SENDINFO(eLightHigh)),
+	SendPropEHandle(SENDINFO(eLightGreen)),
+	SendPropEHandle(SENDINFO(eLightYellow)),
 END_SEND_TABLE()
 
 BEGIN_DATADESC( CClubDJ )
@@ -71,8 +69,10 @@ BEGIN_DATADESC( CClubDJ )
 
 	//Get keyfield info from entity for lights (specified in Hammer)
 	DEFINE_KEYFIELD( lightMainStr, FIELD_STRING, "lightMain" ),
-	//DEFINE_KEYFIELD( lightBass, FIELD_STRING, "lightBass" ),
-	//DEFINE_KEYFIELD( lightHigh, FIELD_STRING, "lightHigh" ),
+	DEFINE_KEYFIELD( lightBassStr, FIELD_STRING, "lightBass" ),
+	DEFINE_KEYFIELD( lightHighStr, FIELD_STRING, "lightHigh" ),
+	DEFINE_KEYFIELD( lightGreenStr, FIELD_STRING, "lightGreen" ),
+	DEFINE_KEYFIELD( lightYellowStr, FIELD_STRING, "lightYellow" ),
 END_DATADESC()
 
 CClubDJ::CClubDJ(){
@@ -99,29 +99,19 @@ CClubDJ::CClubDJ(){
 		Msg("BASS module has been initialized...\n");
 		BASS_SetVolume(BASS_GetVolume());
 	}
-
-	//Initialize old angles (might not be neccisary)
-	oldAngYellow = QAngle(-90,0,0);
-	oldAngGreen = QAngle(-90,0,0);
 }
 
 void CClubDJ::Spawn(){
 	BaseClass::Spawn();
 
 	//Link up lights for lightshow usage
-	lightMain = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light1"));
-	lightBass = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light2"));
-	lightHigh = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light3"));
-	lightGreen = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light4"));
-	lightYellow = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,"light5"));
+	eLightMain = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightMainStr));
+	eLightBass = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightBassStr));
+	eLightHigh = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightHighStr));
+	eLightGreen = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightGreenStr));
+	eLightYellow = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightYellowStr));
 
-	//Test check
-	if(lightMain!=NULL){
-		Msg("Found Main Light for club_dj.\n");
-	}
-	else{
-		Warning("Could not find Main Light for club_dj!");
-	}
+	NetworkStateChanged();
 
 	//Moar test checkz but for the keyfield string instead here
 	if(lightMainStr!=NULL){
@@ -179,67 +169,5 @@ float FFTAverage(float fft[],int index,int range){
 
 void CClubDJ::Think(){
 	BaseClass::Think();
-	
-	//Check if stream 1 is not NULL
-	if(serverStream1!=NULL){
-		if(BASS_ChannelIsActive(serverStream1)==BASS_ACTIVE_PLAYING){
-			float fft[512]; // fft data buffer
-			BASS_ChannelGetData(serverStream1, fft, BASS_DATA_FFT1024);
-			//Check if lights are not NULL and apply lightshow data
-			if(lightMain!=NULL){
-				std::string diff = "255 0 0 ";
-				std::stringstream ss;
-				ss<<FFTAverage(fft,24,10)*20000;
-				diff.append(ss.str());
-				lightMain->SetColor_Diffuse(stringColToVec(diff.c_str()));
-				oldLightMain = diff;
-			}
-			if(lightBass!=NULL){
-				std::string diff = "0 0 255 ";
-				std::stringstream ss;
-				ss<<FFTAverage(fft,4,10)*10000;
-				ss<<FFTAverage(fft,5,10)*5000;
-				diff.append(ss.str());
-				lightBass->SetColor_Diffuse(stringColToVec(diff.c_str()));
-				oldLightBass = diff;
-			}
-			if(lightHigh!=NULL){
-				std::string diff = "255 255 255 ";
-				std::stringstream ss;
-				ss<<FFTAverage(fft,100,10)*200000;
-				diff.append(ss.str());
-				lightHigh->SetColor_Diffuse(stringColToVec(diff.c_str()));
-				oldLightHigh = diff;
-			}
-			if(lightGreen!=NULL){
-				float avg = FFTAverage(fft,300,10);
-				std::string diff = "0 255 0 ";
-				std::stringstream ss;
-				ss<<avg*200000;
-				diff.append(ss.str());
-				lightGreen->SetColor_Diffuse(stringColToVec(diff.c_str()));
-				oldLightGreen = diff;
-				QAngle aLocal = QAngle(sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000);
-				aLocal = (aLocal*0.2)+(oldAngGreen*0.8);
-				lightGreen->SetLocalAngles(aLocal);
-				lightGreen->SetAbsAngles(oldAngGreen);
-				oldAngGreen=aLocal;
-			}
-			if(lightYellow!=NULL){
-				float avg = FFTAverage(fft,200,10);
-				std::string diff = "255 255 0 ";
-				std::stringstream ss;
-				ss<<avg*200000;
-				diff.append(ss.str());
-				lightYellow->SetColor_Diffuse(stringColToVec(diff.c_str()));
-				oldLightYellow = diff;
-				QAngle aLocal = QAngle(sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000);
-				aLocal = (aLocal*0.2)+(oldAngYellow*0.8);
-				lightYellow->SetLocalAngles(aLocal);
-				lightYellow->SetAbsAngles(oldAngYellow);
-			}
-		}
-	}
-
 	SetNextThink( gpGlobals->curtime + 0.05 );
 }

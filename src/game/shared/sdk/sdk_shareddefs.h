@@ -12,7 +12,7 @@
 
 #define SDK_MAX_PLAYERS 32
 
-#define SDK_PLAYER_MODEL "models/player/eggbot/eggbot.mdl"
+#define SDK_PLAYER_MODEL "models/player/blue_player.mdl"
 //#define SDK_PLAYER_MODEL "models/swarm/marine/marine.mdl"
 
 // These defines handle the default speeds for all of these - all are listed regardless of which option is enabled.

@@ -1,7 +1,11 @@
 #include "cbase.h"
+#include "deferred\CDefLight.h"
+#include "deferred\deferred_shared_common.h"
 #include "mathlib\mathlib.h"
 #include "bass.h"
 #include "bass_fx.h"
+#include <string>
+#include <sstream>
 
 ConVar club_url("club_url", "http://iku.streams.bassdrive.com:8000", FCVAR_CHEAT | FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
 
@@ -28,6 +32,31 @@ public:
 
 	HFX dsp;
 
+	//Light EHANDLEs
+	CNetworkVar( CDeferredLight *, eLightMain);
+	CNetworkVar( CDeferredLight *, eLightBass);
+	CNetworkVar( CDeferredLight *, eLightHigh);
+	CNetworkVar( CDeferredLight *, eLightGreen);
+	CNetworkVar( CDeferredLight *, eLightYellow);
+
+	//Light pointers
+	CDeferredLight *lightMain;
+	CDeferredLight *lightBass;
+	CDeferredLight *lightHigh;
+	CDeferredLight *lightGreen;
+	CDeferredLight *lightYellow;
+	
+	//Old light colours (for interpolation)
+	std::string oldLightMain;
+	std::string oldLightBass;
+	std::string oldLightHigh;
+	std::string oldLightGreen;
+	std::string oldLightYellow;
+
+	//Old angles of lights for interpolation
+	QAngle oldAngYellow;
+	QAngle oldAngGreen;
+
 	//testvars
 	CNetworkVar( bool, bDJEnabled );
 	CNetworkVar( float, bDJStream1Pos);
@@ -38,6 +67,11 @@ LINK_ENTITY_TO_CLASS( club_dj, C_ClubDJ );
 IMPLEMENT_CLIENTCLASS_DT( C_ClubDJ, DT_ClubDJ, CClubDJ )
 	RecvPropInt( RECVINFO( bDJEnabled ) ),
 	RecvPropFloat(RECVINFO(bDJStream1Pos)),
+	RecvPropEHandle(RECVINFO(eLightMain)),
+	RecvPropEHandle(RECVINFO(eLightBass)),
+	RecvPropEHandle(RECVINFO(eLightHigh)),
+	RecvPropEHandle(RECVINFO(eLightGreen)),
+	RecvPropEHandle(RECVINFO(eLightYellow)),
 END_RECV_TABLE()
 
 C_ClubDJ::C_ClubDJ(){
@@ -73,6 +107,10 @@ C_ClubDJ::C_ClubDJ(){
 			Warning("Could not initialize BASS_FX: error %i",error);
 		}
 	}
+
+	//Initialize old angles (might not be neccisary)
+	oldAngYellow = QAngle(-90,0,0);
+	oldAngGreen = QAngle(-90,0,0);
 }
 
 C_ClubDJ::~C_ClubDJ(){
@@ -102,12 +140,15 @@ void C_ClubDJ::ForcePlay(){
 		}
 		else{
 			DevMsg("Incorrect BASS_FX version loaded.\n");
-			DevMsg("BASS version: %h\n",BASSVERSION);
-			DevMsg("BASS_FX version: %h\n", BASS_FX_GetVersion());
 		}
 		//Play stream
-		BASS_ChannelPlay(stream1,true);
-		BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1.0f);
+		if(stream1!=NULL){
+			BASS_ChannelPlay(stream1,true);
+			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1.0f);
+		}
+		else{
+			Warning("Could not open stream.\n");
+		}
 	}
 	else{
 		Msg("CoopCrowd Club's DJ is experiencing brain thingies!\n");
@@ -138,10 +179,24 @@ void C_ClubDJ::OnDataChanged( DataUpdateType_t type ){
 	else{
 		ForceStop();
 	}
+
+	if(eLightMain!=NULL){
+		//TODO: This crashes the mod atm
+		//lightMain = static_cast<CDeferredLight *>(cl_entitylist->GetBaseEntity(eLightMain.Get()->index));
+
+		//Check if light isn't NULL (test check)
+		if(lightMain!=NULL){
+			Msg("Found Main Light for club_dj.\n");
+		}
+		else{
+			Warning("Could not find Main Light for club_dj!");
+		}
+	}
 }
 
 void C_ClubDJ::Spawn(){
 	BaseClass::Spawn();
+
 	SetNextClientThink( CLIENT_THINK_ALWAYS );
 }
 
@@ -191,9 +246,84 @@ ConVar club_doppler("club_doppler", "0.01", FCVAR_CHEAT, "BASS - Doppler factor"
 ConVar club_maxdist("club_maxdist", "5000", FCVAR_CHEAT, "BASS - Maximum audible distance", OnChangeMaxDist);
 ConVar club_mindist("club_mindist", "500", FCVAR_CHEAT, "BASS - Minimum audible distance", OnChangeMinDist);
 
+//Calculates the average of input range
+//TODO: unstable but it works still have to add some checks
+float FFTAverage(float fft[],int index,int range){
+	int low = index-(range/2);
+	int high = index+(range/2);
+
+	float sum = 0;
+	int count = 0;
+	for(int i = low;i<high;i++){
+		sum+=fft[i];
+		count++;
+	}
+	return sum/count;
+}
+
 void C_ClubDJ::ClientThink(){
 	BaseClass::ClientThink();
+
+	//Check if stream 1 is not NULL
 	if(stream1!=NULL){
+		if(BASS_ChannelIsActive(stream1)==BASS_ACTIVE_PLAYING){
+			float fft[512]; // fft data buffer
+			BASS_ChannelGetData(stream1, fft, BASS_DATA_FFT1024);
+			//Check if lights are not NULL and apply lightshow data
+			if(lightMain!=NULL){
+				std::string diff = "255 0 0 ";
+				std::stringstream ss;
+				ss<<FFTAverage(fft,24,10)*20000;
+				diff.append(ss.str());
+				lightMain->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				oldLightMain = diff;
+			}
+			if(lightBass!=NULL){
+				std::string diff = "0 0 255 ";
+				std::stringstream ss;
+				ss<<FFTAverage(fft,4,10)*10000;
+				ss<<FFTAverage(fft,5,10)*5000;
+				diff.append(ss.str());
+				lightBass->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				oldLightBass = diff;
+			}
+			if(lightHigh!=NULL){
+				std::string diff = "255 255 255 ";
+				std::stringstream ss;
+				ss<<FFTAverage(fft,100,10)*200000;
+				diff.append(ss.str());
+				lightHigh->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				oldLightHigh = diff;
+			}
+			if(lightGreen!=NULL){
+				float avg = FFTAverage(fft,300,10);
+				std::string diff = "0 255 0 ";
+				std::stringstream ss;
+				ss<<avg*200000;
+				diff.append(ss.str());
+				lightGreen->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				oldLightGreen = diff;
+				QAngle aLocal = QAngle(sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000);
+				aLocal = (aLocal*0.2)+(oldAngGreen*0.8);
+				lightGreen->SetLocalAngles(aLocal);
+				lightGreen->SetAbsAngles(oldAngGreen);
+				oldAngGreen=aLocal;
+			}
+			if(lightYellow!=NULL){
+				float avg = FFTAverage(fft,200,10);
+				std::string diff = "255 255 0 ";
+				std::stringstream ss;
+				ss<<avg*200000;
+				diff.append(ss.str());
+				lightYellow->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				oldLightYellow = diff;
+				QAngle aLocal = QAngle(sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000);
+				aLocal = (aLocal*0.2)+(oldAngYellow*0.8);
+				lightYellow->SetLocalAngles(aLocal);
+				lightYellow->SetAbsAngles(oldAngYellow);
+			}
+		}
+
 		//Register player position and velocity
 		BASS_3DVECTOR *playerPos = Get3DVect(C_BasePlayer::GetLocalPlayer()->GetAbsOrigin());
         BASS_3DVECTOR *playerVel = Get3DVect(C_BasePlayer::GetLocalPlayer()->GetAbsVelocity());
@@ -226,7 +356,7 @@ void C_ClubDJ::ClientThink(){
 			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,multVolume);
 		}
 		else{
-			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1.0);
+			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,0.0);
 		}
 
 		//Apply effects

@@ -135,7 +135,7 @@ void CSDK_Background_Movie::Update()
 #ifdef ASW_BINK_MOVIES
 			SetCurrentMovie( "media/BGFX_01.bik" );
 #else
-			SetCurrentMovie( "media/test.avi" );
+			SetCurrentMovie( "media/discomenu.avi" );
 #endif
 			m_nLastGameState = nGameState;
 		}
@@ -148,7 +148,7 @@ void CSDK_Background_Movie::Update()
 #ifdef ASW_BINK_MOVIES
 			SetCurrentMovie( "media/BG_02.bik" );
 #else
-			SetCurrentMovie( "media/test.avi" );
+			SetCurrentMovie( "media/discomenu.avi" );
 #endif
 			m_nLastGameState = nGameState;
 		}
@@ -178,8 +178,8 @@ void CSDK_Background_Movie::Update()
 	nFramesPassed = nFramesPassed % nFrames;
 	avi->SetFrame( m_nAVIMaterial, nFramesPassed );
 
-// 	float flMaxU, flMaxV;
-// 	g_pAVI->GetTexCoordRange( m_nAVIMaterial, &flMaxU, &flMaxV );
+ 	float flMaxU, flMaxV;
+ 	g_pAVI->GetTexCoordRange( m_nAVIMaterial, &flMaxU, &flMaxV );
 #endif
 }
 

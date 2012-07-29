@@ -103,7 +103,7 @@ void MainMenu::OnCommand( const char *command )
 	bool bOpeningFlyout = false;
 	if ( !Q_stricmp( command, "FlmRunA" ) )
 	{
-		engine->ClientCmd( "map club_dev" ); //set this to 'map club_dev' when ready
+		engine->ClientCmd( "map club_coopcrowd" ); //set this to 'map club_dev' when ready
 	}
 	else if ( !Q_stricmp( command, "FlmRunB" ) )
 	{

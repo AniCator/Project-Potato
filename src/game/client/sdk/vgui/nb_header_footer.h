@@ -7,7 +7,7 @@
 #include <vgui/VGUI.h>
 #include <vgui_controls/EditablePanel.h>
 
-#define ASW_BINK_MOVIES
+//#define ASW_BINK_MOVIES
 
 #ifdef ASW_BINK_MOVIES
 #include "avi/ibik.h"

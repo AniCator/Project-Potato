@@ -45,13 +45,6 @@ public:
 	def_light_t *lightHigh;
 	def_light_t *lightGreen;
 	def_light_t *lightYellow;
-	
-	//Old light colours (for interpolation)
-	std::string oldLightMain;
-	std::string oldLightBass;
-	std::string oldLightHigh;
-	std::string oldLightGreen;
-	std::string oldLightYellow;
 
 	//Old angles of lights for interpolation
 	QAngle oldAngYellow;
@@ -290,25 +283,40 @@ void C_ClubDJ::ClientThink(){
 				std::stringstream ss;
 				ss<<FFTAverage(fft,24,10)*20000;
 				diff.append(ss.str());
+				Vector oldCol = eLightMain.Get()->GetColor_Diffuse();
+				Vector newCol = stringColToVec(diff.c_str());
+				newCol = (newCol*0.2)+(oldCol*0.8);
+
+				char buffer[32];
+				vecToStringCol(newCol,buffer,32);
+				diff = "";
+				diff.append(buffer);
 				lightMain->col_diffuse = stringColToVec(diff.c_str());
-				oldLightMain = diff;
 			}
 			if(lightBass!=NULL){
 				std::string diff = "0 0 255 ";
 				std::stringstream ss;
-				ss<<FFTAverage(fft,4,10)*10000;
 				ss<<FFTAverage(fft,5,10)*5000;
 				diff.append(ss.str());
+				Vector oldCol = eLightBass.Get()->GetColor_Diffuse();
+				Vector newCol = stringColToVec(diff.c_str());
+				newCol = (newCol*0.2)+(oldCol*0.8);
+
+				char buffer[32];
+				vecToStringCol(newCol,buffer,32);
+				diff = "";
+				diff.append(buffer);
 				lightBass->col_diffuse = stringColToVec(diff.c_str());
-				oldLightBass = diff;
 			}
 			if(lightHigh!=NULL){
 				std::string diff = "255 255 255 ";
 				std::stringstream ss;
 				ss<<FFTAverage(fft,100,10)*200000;
 				diff.append(ss.str());
+				Vector oldCol = eLightHigh.Get()->GetColor_Diffuse();
+				Vector newCol = stringColToVec(diff.c_str());
+				newCol = (newCol*0.2)+(oldCol*0.8);
 				lightHigh->col_diffuse = stringColToVec(diff.c_str());
-				oldLightHigh = diff;
 			}
 			if(lightGreen!=NULL){
 				float avg = FFTAverage(fft,300,10);
@@ -316,18 +324,19 @@ void C_ClubDJ::ClientThink(){
 				std::stringstream ss;
 				ss<<avg*200000;
 				diff.append(ss.str());
-				lightGreen->col_diffuse = stringColToVec(diff.c_str());
+				Vector oldCol = eLightGreen.Get()->GetColor_Diffuse();
+				Vector newCol = stringColToVec(diff.c_str());
+				newCol = (newCol*0.2)+(oldCol*0.8);
+				eLightGreen.Get()->SetColor_Diffuse(newCol);
 
 				float tMult = sin(gpGlobals->curtime)*2;
-				float aAvg = avg*5000;
+				float aAvg = avg*10000;
 
 				QAngle aLocal(90+tMult*aAvg,tMult*aAvg*-1,0);
-				aLocal = (aLocal*0.01)+(oldAngGreen*0.99);
+				aLocal = (aLocal*0.1)+(oldAngGreen*0.9);
 
 				eLightGreen.Get()->SetAbsAngles(aLocal);
-				eLightGreen.Get()->SetColor_Diffuse(stringColToVec(diff.c_str()));
 
-				oldLightGreen = diff;
 				oldAngGreen = aLocal;
 			}
 			if(lightYellow!=NULL){
@@ -336,17 +345,19 @@ void C_ClubDJ::ClientThink(){
 				std::stringstream ss;
 				ss<<avg*200000;
 				diff.append(ss.str());
-				lightYellow->col_diffuse = stringColToVec(diff.c_str());
+				Vector oldCol = eLightYellow.Get()->GetColor_Diffuse();
+				Vector newCol = stringColToVec(diff.c_str());
+				newCol = (newCol*0.2)+(oldCol*0.8);
+				eLightYellow.Get()->SetColor_Diffuse(newCol);
 
 				float tMult = sin(gpGlobals->curtime)+cos(gpGlobals->curtime);
-				float aAvg = avg*5000;
+				float aAvg = avg*10000;
 
 				QAngle aLocal(90+tMult*aAvg,tMult*aAvg*-1,0);
-				aLocal = (aLocal*0.01)+(oldAngYellow*0.99);
+				aLocal = (aLocal*0.2)+(oldAngYellow*0.8);
 
 				eLightYellow.Get()->SetLocalAngles(aLocal);
 
-				oldLightYellow = diff;
 				oldAngYellow = aLocal;
 			}
 		}

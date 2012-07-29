@@ -35,6 +35,9 @@ public:
 	//custom cator code
 	//SetColor_Diffuse test
 	inline void SetColor_Diffuse(Vector input);
+#ifdef CLIENT_DLL
+	inline def_light_t *CDeferredLight::GetDefLightT();
+#endif
 
 	inline Vector GetColor_Diffuse();
 	inline Vector GetColor_Ambient();
@@ -104,6 +107,12 @@ private:
 	CNetworkVar( int, m_iDefFlags );
 	CNetworkVar( int, m_iCookieIndex );
 };
+
+#ifdef CLIENT_DLL
+def_light_t *CDeferredLight::GetDefLightT(){
+	return m_pLight;
+}
+#endif
 
 void CDeferredLight::SetColor_Diffuse(Vector input){
 	m_vecColor_Diff = input;

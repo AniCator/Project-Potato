@@ -40,11 +40,11 @@ public:
 	CNetworkHandle( CDeferredLight, eLightYellow);
 
 	//Light pointers
-	CDeferredLight *lightMain;
-	CDeferredLight *lightBass;
-	CDeferredLight *lightHigh;
-	CDeferredLight *lightGreen;
-	CDeferredLight *lightYellow;
+	def_light_t *lightMain;
+	def_light_t *lightBass;
+	def_light_t *lightHigh;
+	def_light_t *lightGreen;
+	def_light_t *lightYellow;
 	
 	//Old light colours (for interpolation)
 	std::string oldLightMain;
@@ -181,12 +181,31 @@ void C_ClubDJ::OnDataChanged( DataUpdateType_t type ){
 	}
 
 	//Check if light isn't NULL (test check)
+	bool allWentWell=true;
 	if(eLightMain!=NULL){
-		lightMain = eLightMain.Get();
-		Msg("Client: Found Main Light for club_dj.\n");
+		lightMain = eLightMain.Get()->GetDefLightT();
 	}
-	else{
-		Warning("Client: Could not find Main Light for club_dj!");
+	else allWentWell=false;
+	if(eLightBass!=NULL){
+		lightBass = eLightBass.Get()->GetDefLightT();
+	}
+	else allWentWell=false;
+	if(eLightHigh!=NULL){
+		lightHigh = eLightHigh.Get()->GetDefLightT();
+	}
+	else allWentWell=false;
+	if(eLightGreen!=NULL){
+		lightGreen = eLightGreen.Get()->GetDefLightT();
+	}
+	else allWentWell=false;
+	if(eLightYellow!=NULL){
+		lightYellow = eLightYellow.Get()->GetDefLightT();
+	}
+	else allWentWell=false;
+
+	//Check if all lights loaded.
+	if(!allWentWell){
+		Warning("Client: Not all lights have been specified for client-side lightshow automation.\n");
 	}
 }
 
@@ -271,7 +290,7 @@ void C_ClubDJ::ClientThink(){
 				std::stringstream ss;
 				ss<<FFTAverage(fft,24,10)*20000;
 				diff.append(ss.str());
-				lightMain->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				lightMain->col_diffuse = stringColToVec(diff.c_str());
 				oldLightMain = diff;
 			}
 			if(lightBass!=NULL){
@@ -280,7 +299,7 @@ void C_ClubDJ::ClientThink(){
 				ss<<FFTAverage(fft,4,10)*10000;
 				ss<<FFTAverage(fft,5,10)*5000;
 				diff.append(ss.str());
-				lightBass->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				lightBass->col_diffuse = stringColToVec(diff.c_str());
 				oldLightBass = diff;
 			}
 			if(lightHigh!=NULL){
@@ -288,35 +307,24 @@ void C_ClubDJ::ClientThink(){
 				std::stringstream ss;
 				ss<<FFTAverage(fft,100,10)*200000;
 				diff.append(ss.str());
-				lightHigh->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				lightHigh->col_diffuse = stringColToVec(diff.c_str());
 				oldLightHigh = diff;
 			}
 			if(lightGreen!=NULL){
-				float avg = FFTAverage(fft,300,10);
 				std::string diff = "0 255 0 ";
 				std::stringstream ss;
-				ss<<avg*200000;
+				ss<<FFTAverage(fft,300,10)*200000;
 				diff.append(ss.str());
-				lightGreen->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				lightGreen->col_diffuse = stringColToVec(diff.c_str());
 				oldLightGreen = diff;
-				QAngle aLocal = QAngle(sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000);
-				aLocal = (aLocal*0.2)+(oldAngGreen*0.8);
-				lightGreen->SetLocalAngles(aLocal);
-				lightGreen->SetAbsAngles(oldAngGreen);
-				oldAngGreen=aLocal;
 			}
 			if(lightYellow!=NULL){
-				float avg = FFTAverage(fft,200,10);
 				std::string diff = "255 255 0 ";
 				std::stringstream ss;
-				ss<<avg*200000;
+				ss<<FFTAverage(fft,200,10)*200000;
 				diff.append(ss.str());
-				lightYellow->SetColor_Diffuse(stringColToVec(diff.c_str()));
+				lightYellow->col_diffuse = stringColToVec(diff.c_str());
 				oldLightYellow = diff;
-				QAngle aLocal = QAngle(sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000,sin(gpGlobals->curtime)*avg*20000);
-				aLocal = (aLocal*0.2)+(oldAngYellow*0.8);
-				lightYellow->SetLocalAngles(aLocal);
-				lightYellow->SetAbsAngles(oldAngYellow);
 			}
 		}
 

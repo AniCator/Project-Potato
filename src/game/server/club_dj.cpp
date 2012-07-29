@@ -34,11 +34,11 @@ public:
 	HSTREAM serverStream2;
 
 	//Light EHANDLEs
-	CNetworkVar( CDeferredLight *, eLightMain);
-	CNetworkVar( CDeferredLight *, eLightBass);
-	CNetworkVar( CDeferredLight *, eLightHigh);
-	CNetworkVar( CDeferredLight *, eLightGreen);
-	CNetworkVar( CDeferredLight *, eLightYellow);
+	CNetworkHandle( CDeferredLight, eLightMain);
+	CNetworkHandle( CDeferredLight, eLightBass);
+	CNetworkHandle( CDeferredLight, eLightHigh);
+	CNetworkHandle( CDeferredLight, eLightGreen);
+	CNetworkHandle( CDeferredLight, eLightYellow);
 
 	//Light strings (for keyfields)
 	char *lightMainStr;

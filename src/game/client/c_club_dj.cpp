@@ -33,11 +33,11 @@ public:
 	HFX dsp;
 
 	//Light EHANDLEs
-	CNetworkVar( CDeferredLight *, eLightMain);
-	CNetworkVar( CDeferredLight *, eLightBass);
-	CNetworkVar( CDeferredLight *, eLightHigh);
-	CNetworkVar( CDeferredLight *, eLightGreen);
-	CNetworkVar( CDeferredLight *, eLightYellow);
+	CNetworkHandle( CDeferredLight, eLightMain);
+	CNetworkHandle( CDeferredLight, eLightBass);
+	CNetworkHandle( CDeferredLight, eLightHigh);
+	CNetworkHandle( CDeferredLight, eLightGreen);
+	CNetworkHandle( CDeferredLight, eLightYellow);
 
 	//Light pointers
 	CDeferredLight *lightMain;
@@ -180,17 +180,13 @@ void C_ClubDJ::OnDataChanged( DataUpdateType_t type ){
 		ForceStop();
 	}
 
+	//Check if light isn't NULL (test check)
 	if(eLightMain!=NULL){
-		//TODO: This crashes the mod atm
-		//lightMain = static_cast<CDeferredLight *>(cl_entitylist->GetBaseEntity(eLightMain.Get()->index));
-
-		//Check if light isn't NULL (test check)
-		if(lightMain!=NULL){
-			Msg("Found Main Light for club_dj.\n");
-		}
-		else{
-			Warning("Could not find Main Light for club_dj!");
-		}
+		lightMain = eLightMain.Get();
+		Msg("Client: Found Main Light for club_dj.\n");
+	}
+	else{
+		Warning("Client: Could not find Main Light for club_dj!");
 	}
 }
 

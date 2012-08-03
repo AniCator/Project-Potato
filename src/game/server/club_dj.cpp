@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 
-ConVar club_url("club_url", "http://iku.streams.bassdrive.com:8000", FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
+ConVar club_url("club_url", "http://mirror.anicator.com/dainumo/faster.mp3", FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
 
 class CClubDJ : public CBaseEntity
 {
@@ -111,6 +111,7 @@ void CClubDJ::Spawn(){
 	eLightGreen = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightGreenStr));
 	eLightYellow = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightYellowStr));
 
+	DevMsg("Debug: Transmitting light info to clients.\n");
 	NetworkStateChanged();
 
 	//Moar test checkz but for the keyfield string instead here

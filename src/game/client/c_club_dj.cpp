@@ -7,7 +7,7 @@
 #include <string>
 #include <sstream>
 
-ConVar club_url("club_url", "http://iku.streams.bassdrive.com:8000", FCVAR_CHEAT | FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
+ConVar club_url("club_url", "http://mirror.anicator.com/dainumo/faster.mp3", FCVAR_CHEAT | FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
 
 class C_ClubDJ : public C_BaseEntity
 {
@@ -31,6 +31,10 @@ public:
 	HSTREAM stream2;
 
 	HFX dsp;
+
+	BASS_BFX_LPF lpf;
+
+	float oldCutoff;
 
 	//Light EHANDLEs
 	CNetworkHandle( CDeferredLight, eLightMain);
@@ -76,6 +80,13 @@ C_ClubDJ::C_ClubDJ(){
 		Error("Unable to find window for BASS library");
 	}
 
+	if (HIWORD(BASS_GetVersion())!=BASSVERSION) {
+		Warning("An incorrect version of BASS.DLL was loaded (2.4 is required)\n");
+	}
+	if (HIWORD(BASS_FX_GetVersion())!=BASSVERSION) {
+		Warning("An incorrect version of BASS_FX.DLL was loaded (2.4 is required)\n");
+	}
+
 	bassInit = BASS_Init(-1, 44100, BASS_DEVICE_3D, hWndPotato, NULL);
 	if(!bassInit)
 	{
@@ -94,16 +105,13 @@ C_ClubDJ::C_ClubDJ(){
 	else{
 		Msg("BASS module has been initialized...\n");
 		BASS_SetVolume(BASS_GetVolume());
-		HPLUGIN fxPlugin = BASS_PluginLoad("bass_fx.dll",0);
-		if(fxPlugin==0){
-			int error = BASS_ErrorGetCode();
-			Warning("Could not initialize BASS_FX: error %i",error);
-		}
 	}
 
 	//Initialize old angles (might not be neccisary)
 	oldAngYellow = QAngle(-90,0,0);
 	oldAngGreen = QAngle(-90,0,0);
+
+	oldCutoff = 100.0f;
 }
 
 C_ClubDJ::~C_ClubDJ(){
@@ -123,21 +131,18 @@ void C_ClubDJ::ForcePlay(){
 	if(bassInit){
 		//Create new stream
 		ConVarRef url = ConVarRef("club_url");
-		stream1=BASS_StreamCreateURL(url.GetString(), 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
-		if(BASS_FX_GetVersion()==BASSVERSION){
+		//stream1=BASS_StreamCreateURL(url.GetString(), 0, BASS_SAMPLE_MONO | BASS_SAMPLE_3D, NULL, 0);
+		stream1=BASS_StreamCreateURL(url.GetString(), 0, 0, NULL, 0);
+		
+		//Play stream
+		if(stream1!=NULL){
+			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1.0f);
 			dsp = BASS_ChannelSetFX(stream1,BASS_FX_BFX_LPF,0);
 			if(!dsp){
 				int error = BASS_ErrorGetCode();
 				DevMsg("Could not set FX on channel. Error: %i\n",error);
 			}
-		}
-		else{
-			DevMsg("Incorrect BASS_FX version loaded.\n");
-		}
-		//Play stream
-		if(stream1!=NULL){
 			BASS_ChannelPlay(stream1,true);
-			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1.0f);
 		}
 		else{
 			Warning("Could not open stream.\n");
@@ -157,7 +162,8 @@ void C_ClubDJ::ForceStop(){
 	//put stuff here
 	if(bassInit){
 		BASS_ChannelStop(stream1);
-		BASS_ChannelRemoveFX(dsp,BASS_FX_BFX_LPF);
+		BASS_ChannelRemoveFX(dsp, BASS_FX_BFX_LPF);
+		BASS_StreamFree(stream1);
 	}
 	else{
 		DevMsg("CoopCrowd Club's DJ is experiencing brain thingies!\n");
@@ -279,39 +285,46 @@ void C_ClubDJ::ClientThink(){
 			BASS_ChannelGetData(stream1, fft, BASS_DATA_FFT1024);
 			//Check if lights are not NULL and apply lightshow data
 			if(lightMain!=NULL){
-				std::string diff = "255 0 0 ";
-				std::stringstream ss;
-				ss<<FFTAverage(fft,24,10)*20000;
-				diff.append(ss.str());
-				Vector oldCol = eLightMain.Get()->GetColor_Diffuse();
-				Vector newCol = stringColToVec(diff.c_str());
-				newCol = (newCol*0.2)+(oldCol*0.8);
+				int r,g,b,i;
+				r = 255;
+				g = 0;
+				b = 0;
+				i = FFTAverage(fft,25,10)*20000;
 
-				char buffer[32];
-				vecToStringCol(newCol,buffer,32);
-				diff = "";
-				diff.append(buffer);
+				int* oldCol = vecToIntArray(eLightMain.Get()->GetColor_Diffuse());
+				//r = (r*0.2)+(oldCol[0]*0.8);
+				//g = (g*0.2)+(oldCol[1]*0.8);
+				//b = (b*0.2)+(oldCol[2]*0.8);
+				//i = (i*0.1)+(oldCol[3]*0.9);
+
+				std::stringstream ss;
+				ss<<r<<" "<<g<<" "<<b<<" "<<i;
+				std::string diff = ss.str();
+
 				lightMain->col_diffuse = stringColToVec(diff.c_str());
 			}
 			if(lightBass!=NULL){
-				std::string diff = "0 0 255 ";
-				std::stringstream ss;
-				ss<<FFTAverage(fft,5,10)*5000;
-				diff.append(ss.str());
-				Vector oldCol = eLightBass.Get()->GetColor_Diffuse();
-				Vector newCol = stringColToVec(diff.c_str());
-				newCol = (newCol*0.2)+(oldCol*0.8);
+				int r,g,b,i;
+				r = 0;
+				g = 0;
+				b = 255;
+				i = FFTAverage(fft,7,10)*10000;
 
-				char buffer[32];
-				vecToStringCol(newCol,buffer,32);
-				diff = "";
-				diff.append(buffer);
-				lightBass->col_diffuse = stringColToVec(diff.c_str());
+				int *oldCol = vecToIntArray(eLightBass.Get()->GetColor_Diffuse());
+				//r = (r*0.2)+(oldCol[3]*0.8);
+				//g = (g*0.2)+(oldCol[2]*0.8);
+				//b = (b*0.2)+(oldCol[1]*0.8);
+				//i = (i*0.1)+(oldCol[0]*0.9);
+
+				std::stringstream ss;
+				ss<<r<<" "<<g<<" "<<b<<" "<<i;
+
+				lightBass->col_diffuse = stringColToVec(ss.str().c_str());
 			}
 			if(lightHigh!=NULL){
 				std::string diff = "255 255 255 ";
 				std::stringstream ss;
-				ss<<FFTAverage(fft,100,10)*200000;
+				ss<<FFTAverage(fft,100,20)*200000;
 				diff.append(ss.str());
 				Vector oldCol = eLightHigh.Get()->GetColor_Diffuse();
 				Vector newCol = stringColToVec(diff.c_str());
@@ -319,7 +332,7 @@ void C_ClubDJ::ClientThink(){
 				lightHigh->col_diffuse = stringColToVec(diff.c_str());
 			}
 			if(lightGreen!=NULL){
-				float avg = FFTAverage(fft,300,10);
+				float avg = FFTAverage(fft,250,30);
 				std::string diff = "0 255 0 ";
 				std::stringstream ss;
 				ss<<avg*200000;
@@ -332,7 +345,7 @@ void C_ClubDJ::ClientThink(){
 				float tMult = sin(gpGlobals->curtime)*2;
 				float aAvg = avg*10000;
 
-				QAngle aLocal(90+tMult*aAvg,tMult*aAvg*-1,0);
+				QAngle aLocal(90+tMult*aAvg,tMult*aAvg*-1,tMult*aAvg*-1);
 				aLocal = (aLocal*0.1)+(oldAngGreen*0.9);
 
 				eLightGreen.Get()->SetAbsAngles(aLocal);
@@ -340,7 +353,7 @@ void C_ClubDJ::ClientThink(){
 				oldAngGreen = aLocal;
 			}
 			if(lightYellow!=NULL){
-				float avg = FFTAverage(fft,200,10);
+				float avg = FFTAverage(fft,200,30);
 				std::string diff = "255 255 0 ";
 				std::stringstream ss;
 				ss<<avg*200000;
@@ -353,8 +366,8 @@ void C_ClubDJ::ClientThink(){
 				float tMult = sin(gpGlobals->curtime)+cos(gpGlobals->curtime);
 				float aAvg = avg*10000;
 
-				QAngle aLocal(90+tMult*aAvg,tMult*aAvg*-1,0);
-				aLocal = (aLocal*0.2)+(oldAngYellow*0.8);
+				QAngle aLocal(90+tMult*aAvg,tMult*aAvg,tMult*aAvg);
+				aLocal = (aLocal*0.3)+(oldAngYellow*0.7);
 
 				eLightYellow.Get()->SetLocalAngles(aLocal);
 
@@ -392,17 +405,45 @@ void C_ClubDJ::ClientThink(){
 		
 		if(GetFocus()==hWndPotato){
 			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,multVolume);
+			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,multVolume);
 		}
 		else{
 			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,0.0);
 		}
 
+		vec_t distance = C_BasePlayer::GetLocalPlayer()->GetAbsOrigin().DistTo(GetAbsOrigin());
+
+		trace_t trace;
+		UTIL_TraceLine(C_BasePlayer::GetLocalPlayer()->GetAbsOrigin(),GetAbsOrigin(),MASK_SHOT,this,COLLISION_GROUP_NONE,&trace);
+
+		if(trace.DidHit()){
+			distance*=3;
+		}
+
 		//Apply effects
-		BASS_BFX_LPF *fx = new BASS_BFX_LPF();
-		fx->fCutOffFreq = 200.0f;
-		fx->fResonance = 5.0f;
-		BASS_FXSetParameters(dsp,fx);
-		delete fx;
+		float cutoff = 20000.0f-(distance*2);
+
+		cutoff = (cutoff*0.075)+(oldCutoff*0.925);
+
+		if(cutoff>18000.0f){
+			cutoff=18000.0f;
+		}
+		if(cutoff<100.0f){
+			cutoff=100.0f;
+		}
+		
+		lpf.fCutOffFreq=cutoff;
+		lpf.fResonance=1.0f;
+		lpf.lChannel=BASS_BFX_CHANALL;
+		BASS_FXSetParameters(dsp,&lpf);
+		if(!dsp){
+			DevMsg("DSP thingy cuz no stream %i",BASS_ErrorGetCode());
+		}
+		if(!BASS_FXSetParameters(dsp, &lpf)){
+			DevMsg("FX thingy cuz no stream %i",BASS_ErrorGetCode());
+		}
+
+		oldCutoff = cutoff;
 
 		//Apply 3D data changes
 		BASS_Apply3D();

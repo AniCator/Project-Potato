@@ -79,6 +79,22 @@ inline void vecToStringCol( Vector col, char *out, int maxLen )
 	Q_snprintf( out, maxLen, "%i %i %i %i", it4[0], it4[1], it4[2], it4[3] );
 }
 
+inline int* vecToIntArray( Vector col ){
+	float flMax = MAX( col.x, MAX( col.y, col.z ) );
+	if ( flMax > 0 )
+		col /= flMax;
+
+	col *= 255;
+	int it4[] = { XYZ( col ), flMax * 255 };
+
+	int* result = new int[4];
+	result[0] = it4[0];
+	result[1] = it4[1];
+	result[2] = it4[2];
+	result[3] = it4[3];
+	return result;
+}
+
 inline void normalizeAngles( QAngle &ang )
 {
 	ang[ 0 ] = AngleNormalize( ang[ 0 ] );

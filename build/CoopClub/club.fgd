@@ -7,4 +7,12 @@
 	lightMain(target_destination) : "Main Light" : : "main light"
 	lightBass(target_destination) : "Bass Light" : : "triggered by bassy stuff"
 	lightHigh(target_destination) : "High Light" : : "triggered by highs"
+	lightGreen(target_destination) : "Green Light" : : "trigger by idunnosomthing"
+	lightYellow(target_destination) : "Yellow Light" : : "STOP ASKING ME QUESTIONS!?"
+	targetLeft(target_destination) : "Left Channel Target" : : "Origin of left channel audio stream."
+	targetRight(target_destination) : "Right Channel Target" : : "Origin of left channel audio stream."
+]
+
+@SolidClass base(Targetname, Origin) = club_bar : "Club Bar entity"
+[
 ]

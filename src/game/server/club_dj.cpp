@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 
-ConVar club_url("club_url", "http://mirror.anicator.com/dainumo/faster.mp3", FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
+ConVar club_url("club_url", "http://207.200.96.225:8020/", FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
 
 class CClubDJ : public CBaseEntity
 {
@@ -25,6 +25,7 @@ public:
 	//TODO: Should be named Toggle
 	//Enables/disables stream
 	void ForcePlay(inputdata_t &inputData);
+	void SetLowpassFactor(inputdata_t &inputData);
 
 	void Spawn();
 	void Think();
@@ -66,6 +67,7 @@ END_SEND_TABLE()
 
 BEGIN_DATADESC( CClubDJ )
 	DEFINE_INPUTFUNC( FIELD_VOID, "ForcePlay", ForcePlay ),
+	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetLowpassFactor", SetLowpassFactor ),
 
 	//Get keyfield info from entity for lights (specified in Hammer)
 	DEFINE_KEYFIELD( lightMainStr, FIELD_STRING, "lightMain" ),
@@ -78,38 +80,40 @@ END_DATADESC()
 CClubDJ::CClubDJ(){
 	bDJEnabled = false;
 
+	//below is old server-side BASS code
+
 	//Initialize BASS module
-	bassInit = BASS_Init(-1, 44100, BASS_DEVICE_3D, 0, NULL);
-	if(!bassInit)
-	{
-		//Error handling
-		int error = BASS_ErrorGetCode();
-		if(error==BASS_ERROR_ALREADY){
-			Msg("BASS: Probably running listen server. Bass is already running and doesn't have to be re-initialized.\n");
-			bassInit=true;
-		}
-		else if(error==-1){
-			Error("Unable to initialize module required for DJ audio system.\nTry restarting the mod. This error usually doesn't occur twice in a row.\nError: %d\n");
-		}
-		else{
-			Error("Unable to initialize module required for DJ audio system.\nTry restarting the mod.\nError: %d\n", error);
-		}
-	}
-	else{
-		Msg("BASS module has been initialized...\n");
-		BASS_SetVolume(BASS_GetVolume());
-	}
+	//bassInit = BASS_Init(-1, 44100, BASS_DEVICE_3D, 0, NULL);
+	//if(!bassInit)
+	//{
+	//	//Error handling
+	//	int error = BASS_ErrorGetCode();
+	//	if(error==BASS_ERROR_ALREADY){
+	//		Msg("BASS: Probably running listen server. Bass is already running and doesn't have to be re-initialized.\n");
+	//		bassInit=true;
+	//	}
+	//	else if(error==-1){
+	//		Error("Unable to initialize module required for DJ audio system.\nTry restarting the mod. This error usually doesn't occur twice in a row.\nError: %d\n");
+	//	}
+	//	else{
+	//		Error("Unable to initialize module required for DJ audio system.\nTry restarting the mod.\nError: %d\n", error);
+	//	}
+	//}
+	//else{
+	//	Msg("BASS module has been initialized...\n");
+	//	BASS_SetVolume(BASS_GetVolume());
+	//}
 }
 
 void CClubDJ::Spawn(){
 	BaseClass::Spawn();
 
 	//Link up lights for lightshow usage
-	eLightMain = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightMainStr));
-	eLightBass = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightBassStr));
-	eLightHigh = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightHighStr));
-	eLightGreen = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightGreenStr));
-	eLightYellow = static_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightYellowStr));
+	eLightMain = dynamic_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightMainStr));
+	eLightBass = dynamic_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightBassStr));
+	eLightHigh = dynamic_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightHighStr));
+	eLightGreen = dynamic_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightGreenStr));
+	eLightYellow = dynamic_cast<CDeferredLight *>(gEntList.FindEntityByName(this,lightYellowStr));
 
 	DevMsg("Debug: Transmitting light info to clients.\n");
 	NetworkStateChanged();
@@ -130,27 +134,44 @@ void CClubDJ::ForcePlay(inputdata_t &inputData){
 	if(bDJEnabled){
 		bDJEnabled=false;
 		if(bassInit){
-			BASS_ChannelStop(serverStream1);
+			//BASS_ChannelStop(serverStream1);
 		}
 		else{
-			DevMsg("CoopCrowd Club's DJ is experiencing brain thingies!\n");
+			//DevMsg("CoopCrowd Club's DJ is experiencing brain thingies!\n");
 		}
 	}
 	else{
 		bDJEnabled=true;
 		if(bassInit){
+			//below is old server-side BASS code
+
 			//Create new stream (or refresh)
-			ConVarRef url = ConVarRef("club_url");
-			serverStream1=BASS_StreamCreateURL(url.GetString(), 0, 0, NULL, 0);
-			//Play stream
-			BASS_ChannelPlay(serverStream1,true);
-			BASS_ChannelSetAttribute(serverStream1,BASS_ATTRIB_VOL,0.0f);
+			//ConVarRef url = ConVarRef("club_url");
+			//serverStream1=BASS_StreamCreateURL(url.GetString(), 0, 0, NULL, 0);
+			////Play stream
+			//BASS_ChannelPlay(serverStream1,true);
+			//BASS_ChannelSetAttribute(serverStream1,BASS_ATTRIB_VOL,0.0f);
 		}
 		else{
-			Msg("CoopCrowd Club's DJ is experiencing brain thingies!\n");
+			//Msg("CoopCrowd Club's DJ is experiencing brain thingies!\n");
 		}
 	}
 	NetworkStateChanged();
+}
+
+void CClubDJ::SetLowpassFactor(inputdata_t &inputData){
+	CBaseEntity *activator = inputData.pActivator;
+	float factor = inputData.value.Float();
+
+	if(activator->IsPlayer()){
+		CBasePlayer* pPlayer = dynamic_cast<CBasePlayer*>(activator);
+		if(pPlayer!=NULL){
+			char cmdFactor[32];
+			Q_snprintf(cmdFactor, 32, "club_lowpassf %f",factor);
+			DevMsg("Updating lowpass factor on a client to %f\n",factor);
+			engine->ClientCommand(pPlayer->edict(),cmdFactor);
+		}
+	}
 }
 
 //Calculates the average of input range

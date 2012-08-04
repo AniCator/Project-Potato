@@ -1,4 +1,4 @@
-﻿Build started 8/3/2012 19:01:36.
+﻿Build started 8/4/2012 14:32:27.
      1>Project "C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\swarmshaders\game_shader_generic_swarm.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release_dx9\game_shader_generic_deferred.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -13,7 +13,8 @@
          copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\swarmshaders\Release_dx9\"$ProjectName).dll "..\..\..\build\CoopClub\bin\"
          if exist "C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\swarmshaders\Release_dx9\"game_shader_generic_deferred.map copy "C:\Users\AniCator\SparkleShare\Project-Potato\src\materialsystem\swarmshaders\Release_dx9\"game_shader_generic_deferred.map "C:\Program Files (x86)\Steam\steamapps\\Sourcemods\CoopClub\bin\game_shader_generic_deferred.map"
          :VCEnd
-                 1 file(s) copied.
+                 0 file(s) copied.
+         The process cannot access the file because it is being used by another process.
          The system cannot find the file specified.
                  1 file(s) copied.
        FinalizeBuildStatus:
@@ -23,4 +24,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.57
+Time Elapsed 00:00:01.11

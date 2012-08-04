@@ -7,7 +7,7 @@
 #include <string>
 #include <sstream>
 
-ConVar club_url("club_url", "http://mirror.anicator.com/dainumo/faster.mp3", FCVAR_CHEAT | FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
+ConVar club_url("club_url", "http://207.200.96.225:8020/", FCVAR_CHEAT | FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
 
 class C_ClubDJ : public C_BaseEntity
 {
@@ -172,6 +172,7 @@ void C_ClubDJ::ForceStop(){
 
 void C_ClubDJ::OnDataChanged( DataUpdateType_t type ){
 	BaseClass::OnDataChanged( type );
+
 	if(bDJEnabled){
 		ForcePlay();
 	}
@@ -233,6 +234,7 @@ ConVarRef maxdist = ConVarRef("club_maxdist");
 ConVarRef doppl = ConVarRef("club_doppler");
 ConVarRef roll = ConVarRef("club_roll");
 ConVarRef dist = ConVarRef("club_distf");
+ConVarRef lowpassf = ConVarRef("club_lowpassf");
 
 static void OnChangeMinDist( IConVar *var, const char *pOldValue, float flOldValue ){
 	mindist = ConVarRef("club_mindist");
@@ -251,6 +253,9 @@ void OnChangeRolloff( IConVar *var, const char *pOldValue, float flOldValue ){
 void OnChangeDistFactor( IConVar *var, const char *pOldValue, float flOldValue ){
 	dist = ConVarRef("club_distf");
 }
+void OnChangeLowpassFactor( IConVar *var, const char *pOldValue, float flOldValue ){
+	lowpassf = ConVarRef("club_lowpassf");
+}
 
 //ConVars
 ConVar club_distf("club_distf", "0.4", FCVAR_CHEAT, "BASS - Audible distance factor", OnChangeDistFactor);
@@ -259,6 +264,7 @@ ConVar club_doppler("club_doppler", "0.01", FCVAR_CHEAT, "BASS - Doppler factor"
 
 ConVar club_maxdist("club_maxdist", "5000", FCVAR_CHEAT, "BASS - Maximum audible distance", OnChangeMaxDist);
 ConVar club_mindist("club_mindist", "500", FCVAR_CHEAT, "BASS - Minimum audible distance", OnChangeMinDist);
+ConVar club_lowpassfactor("club_lowpassf", "1.0", FCVAR_CHEAT, "Lowpass factor/Muffling factor", OnChangeLowpassFactor);
 
 //Calculates the average of input range
 //TODO: unstable but it works still have to add some checks
@@ -421,7 +427,14 @@ void C_ClubDJ::ClientThink(){
 		}
 
 		//Apply effects
-		float cutoff = 20000.0f-(distance*2);
+		
+		float cutoff;
+		if(lowpassf.IsValid()){
+			cutoff = 20000.0f-(distance*2*lowpassf.GetFloat());
+		}
+		else{
+			cutoff = 20000.0f-(distance*2);
+		}
 
 		cutoff = (cutoff*0.075)+(oldCutoff*0.925);
 
@@ -436,12 +449,6 @@ void C_ClubDJ::ClientThink(){
 		lpf.fResonance=1.0f;
 		lpf.lChannel=BASS_BFX_CHANALL;
 		BASS_FXSetParameters(dsp,&lpf);
-		if(!dsp){
-			DevMsg("DSP thingy cuz no stream %i",BASS_ErrorGetCode());
-		}
-		if(!BASS_FXSetParameters(dsp, &lpf)){
-			DevMsg("FX thingy cuz no stream %i",BASS_ErrorGetCode());
-		}
 
 		oldCutoff = cutoff;
 

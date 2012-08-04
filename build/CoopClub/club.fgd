@@ -3,6 +3,7 @@
 @PointClass base(Targetname, Origin) = club_dj : "Club DJ entity"
 [
 	input ForcePlay(void) : "Force DJ entity to play a track."
+	input SetLowpassFactor(float) : "Change lowpass/muffle factor."
 	
 	lightMain(target_destination) : "Main Light" : : "main light"
 	lightBass(target_destination) : "Bass Light" : : "triggered by bassy stuff"

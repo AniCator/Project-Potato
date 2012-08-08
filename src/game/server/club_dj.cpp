@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 
-ConVar club_url("club_url", "http://207.200.96.225:8020/", FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
+ConVar club_url("club_url", "http://mirror.anicator.com/wannadance.mp3", FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
 
 class CClubDJ : public CBaseEntity
 {

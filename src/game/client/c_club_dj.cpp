@@ -7,7 +7,7 @@
 #include <string>
 #include <sstream>
 
-ConVar club_url("club_url", "http://207.200.96.225:8020/", FCVAR_CHEAT | FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
+ConVar club_url("club_url", "http://mirror.anicator.com/wannadance.mp3", FCVAR_CHEAT | FCVAR_REPLICATED, "Club - Playback URL (SHOUTcast or just regular *.mp3 and *.ogg files" );
 
 class C_ClubDJ : public C_BaseEntity
 {
@@ -31,10 +31,17 @@ public:
 	HSTREAM stream2;
 
 	HFX dsp;
+	HFX dsp2;
 
 	BASS_BFX_LPF lpf;
+	BASS_BFX_ECHO2 echo2;
 
+	//LPF interp values
 	float oldCutoff;
+	//Echo2 interp values
+	float oldWet;
+	float oldDry;
+	float oldDelay;
 
 	//Light EHANDLEs
 	CNetworkHandle( CDeferredLight, eLightMain);
@@ -112,6 +119,10 @@ C_ClubDJ::C_ClubDJ(){
 	oldAngGreen = QAngle(-90,0,0);
 
 	oldCutoff = 100.0f;
+
+	oldWet = 1.0f;
+	oldDry = 0.0f;
+	oldDelay = 0.05f;
 }
 
 C_ClubDJ::~C_ClubDJ(){
@@ -137,10 +148,18 @@ void C_ClubDJ::ForcePlay(){
 		//Play stream
 		if(stream1!=NULL){
 			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,1.0f);
+			
+			//order is important
+			dsp2 = BASS_ChannelSetFX(stream1,BASS_FX_BFX_ECHO2,0);
 			dsp = BASS_ChannelSetFX(stream1,BASS_FX_BFX_LPF,0);
+			
 			if(!dsp){
 				int error = BASS_ErrorGetCode();
-				DevMsg("Could not set FX on channel. Error: %i\n",error);
+				DevMsg("Could not set LPF FX on channel. Error: %i\n",error);
+			}
+			if(!dsp2){
+				int error = BASS_ErrorGetCode();
+				DevMsg("Could not set ECHO2 FX on channel. Error: %i\n",error);
 			}
 			BASS_ChannelPlay(stream1,true);
 		}
@@ -162,6 +181,7 @@ void C_ClubDJ::ForceStop(){
 	//put stuff here
 	if(bassInit){
 		BASS_ChannelStop(stream1);
+		BASS_ChannelRemoveFX(dsp2, BASS_FX_BFX_ECHO2);
 		BASS_ChannelRemoveFX(dsp, BASS_FX_BFX_LPF);
 		BASS_StreamFree(stream1);
 	}
@@ -235,6 +255,7 @@ ConVarRef doppl = ConVarRef("club_doppler");
 ConVarRef roll = ConVarRef("club_roll");
 ConVarRef dist = ConVarRef("club_distf");
 ConVarRef lowpassf = ConVarRef("club_lowpassf");
+ConVarRef echof = ConVarRef("club_echof");
 
 static void OnChangeMinDist( IConVar *var, const char *pOldValue, float flOldValue ){
 	mindist = ConVarRef("club_mindist");
@@ -256,6 +277,9 @@ void OnChangeDistFactor( IConVar *var, const char *pOldValue, float flOldValue )
 void OnChangeLowpassFactor( IConVar *var, const char *pOldValue, float flOldValue ){
 	lowpassf = ConVarRef("club_lowpassf");
 }
+void OnChangeEchoFactor( IConVar *var, const char *pOldValue, float flOldValue ){
+	echof = ConVarRef("club_echof");
+}
 
 //ConVars
 ConVar club_distf("club_distf", "0.4", FCVAR_CHEAT, "BASS - Audible distance factor", OnChangeDistFactor);
@@ -264,7 +288,8 @@ ConVar club_doppler("club_doppler", "0.01", FCVAR_CHEAT, "BASS - Doppler factor"
 
 ConVar club_maxdist("club_maxdist", "5000", FCVAR_CHEAT, "BASS - Maximum audible distance", OnChangeMaxDist);
 ConVar club_mindist("club_mindist", "500", FCVAR_CHEAT, "BASS - Minimum audible distance", OnChangeMinDist);
-ConVar club_lowpassfactor("club_lowpassf", "1.0", FCVAR_CHEAT, "Lowpass factor/Muffling factor", OnChangeLowpassFactor);
+ConVar club_lowpassfactor("club_lowpassf", "0.9", FCVAR_CHEAT, "Lowpass factor/Muffling factor", OnChangeLowpassFactor);
+ConVar club_echofactor("club_echof", "0.0003", FCVAR_CHEAT, "Echo factor/Delay factor", OnChangeEchoFactor);
 
 //Calculates the average of input range
 //TODO: unstable but it works still have to add some checks
@@ -411,29 +436,32 @@ void C_ClubDJ::ClientThink(){
 		
 		if(GetFocus()==hWndPotato){
 			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,multVolume);
-			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,multVolume);
 		}
 		else{
 			BASS_ChannelSetAttribute(stream1,BASS_ATTRIB_VOL,0.0);
 		}
+
+		//FX stuff
 
 		vec_t distance = C_BasePlayer::GetLocalPlayer()->GetAbsOrigin().DistTo(GetAbsOrigin());
 
 		trace_t trace;
 		UTIL_TraceLine(C_BasePlayer::GetLocalPlayer()->GetAbsOrigin(),GetAbsOrigin(),MASK_SHOT,this,COLLISION_GROUP_NONE,&trace);
 
-		if(trace.DidHit()){
-			distance*=3;
-		}
+		vec_t lpfDist = distance;
 
-		//Apply effects
+		//LPF FX
+
+		if(trace.DidHit()){
+			lpfDist*=3;
+		}
 		
 		float cutoff;
 		if(lowpassf.IsValid()){
-			cutoff = 20000.0f-(distance*2*lowpassf.GetFloat());
+			cutoff = 20000.0f-(lpfDist*2*lowpassf.GetFloat());
 		}
 		else{
-			cutoff = 20000.0f-(distance*2);
+			cutoff = 20000.0f-(lpfDist*2);
 		}
 
 		cutoff = (cutoff*0.075)+(oldCutoff*0.925);
@@ -451,6 +479,49 @@ void C_ClubDJ::ClientThink(){
 		BASS_FXSetParameters(dsp,&lpf);
 
 		oldCutoff = cutoff;
+
+		//ECHO2 FX
+		vec_t echo2Dist = distance;
+
+		if(trace.DidHit()){
+			echo2Dist*=3;
+		}
+
+		float dryMix=1.0f;
+		float wetMix=0.0f;
+		float delay=0.07f;
+
+		float scaleRange;
+		if(echof.IsValid()){
+			scaleRange = distance*echof.GetFloat();
+		}
+		else{
+			scaleRange = distance*0.0003;
+		}
+
+		if(scaleRange>1.0f){
+			scaleRange=1.0f;
+		}
+		if(scaleRange<0.0f){
+			scaleRange=0.0f;
+		}
+
+		dryMix=1-scaleRange;
+		wetMix=scaleRange;
+		//delay=scaleRange*0.1;
+
+		//delay = (delay*0.1)+(oldDelay*0.9);
+
+		echo2.fDryMix=dryMix;
+		echo2.fWetMix=wetMix;
+		echo2.fDelay=delay;
+		echo2.fFeedback=-0.3f;
+		echo2.lChannel=BASS_BFX_CHANALL;
+		BASS_FXSetParameters(dsp2,&echo2);
+
+		oldDry=dryMix;
+		oldWet=wetMix;
+		oldDelay=delay;
 
 		//Apply 3D data changes
 		BASS_Apply3D();
